@@ -1,4 +1,4 @@
-package testingforfun.models;
+package library.models;
 
 import org.hibernate.annotations.Type;
 
