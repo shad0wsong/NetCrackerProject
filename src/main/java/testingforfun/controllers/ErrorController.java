@@ -9,8 +9,4 @@ public class ErrorController {
     public String errorCatch(){
         return  "error";
     }
-    @GetMapping("/error/no-post")
-    public String noPost(){
-        return "no-post";
-    }
 }

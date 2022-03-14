@@ -1,5 +1,6 @@
 package testingforfun.repo;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import testingforfun.models.Users;
 

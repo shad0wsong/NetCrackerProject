@@ -44,7 +44,6 @@ public class GreetingController  {
     public String newUser(@RequestParam String login,String pass,String email, Model model) {
         Users user= new Users(login,pass,email);
         userRepository.save(user);
-
         return "redirect:/enter";
     }
 
