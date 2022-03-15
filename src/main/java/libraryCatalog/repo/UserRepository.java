@@ -1,7 +1,7 @@
-package testingforfun.repo;
+package libraryCatalog.repo;
 
 import org.springframework.data.repository.CrudRepository;
-import testingforfun.models.Users;
+import libraryCatalog.models.Users;
 
 import java.util.Optional;
 

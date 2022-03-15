@@ -1,7 +1,7 @@
-package testingforfun.repo;
+package libraryCatalog.repo;
 
 import org.springframework.data.repository.CrudRepository;
-import testingforfun.models.Books;
+import libraryCatalog.models.Books;
 
 public interface BookRepository extends CrudRepository<Books,Long> {
 }

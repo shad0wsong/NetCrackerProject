@@ -1,4 +1,4 @@
-package testingforfun.controllers;
+package libraryCatalog.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import testingforfun.models.Users;
-import testingforfun.repo.UserRepository;
+import libraryCatalog.models.Users;
+import libraryCatalog.repo.UserRepository;
 import java.util.Optional;
 
 

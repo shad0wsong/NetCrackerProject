@@ -1,4 +1,4 @@
-package testingforfun.models;
+package libraryCatalog.models;
 
 import org.hibernate.annotations.Type;
 
@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Documents {
+public class PatentDocuments {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -17,30 +17,30 @@ public class Documents {
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    private String documentNumber;
+    private String patentNumber;
+
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    private String author;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String location;
 
     @Temporal(TemporalType.DATE)
-    private Date creationDate;
-
-    @Temporal(TemporalType.DATE)
     private Date addedDate;
 
     @Temporal(TemporalType.DATE)
     private Date modificationDate;
-
-    Documents(){
+    PatentDocuments(){
 
     }
 
-    public Documents(String name, String documentNumber, String location, Date creationDate, Date addedDate, Date modificationDate) {
+    public PatentDocuments(String name, String patentNumber, String author, String location, Date addedDate, Date modificationDate) {
         this.name = name;
-        this.documentNumber = documentNumber;
+        this.patentNumber = patentNumber;
+        this.author = author;
         this.location = location;
-        this.creationDate = creationDate;
         this.addedDate = addedDate;
         this.modificationDate = modificationDate;
     }
@@ -61,12 +61,20 @@ public class Documents {
         this.name = name;
     }
 
-    public String getDocumentNumber() {
-        return documentNumber;
+    public String getPatentNumber() {
+        return patentNumber;
     }
 
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
+    public void setPatentNumber(String patentNumber) {
+        this.patentNumber = patentNumber;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getLocation() {
@@ -75,14 +83,6 @@ public class Documents {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 
     public Date getAddedDate() {
