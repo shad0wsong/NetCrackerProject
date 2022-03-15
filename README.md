@@ -22,6 +22,11 @@ Added authentication and authorization.
 ![RspGjhLAsCE](https://user-images.githubusercontent.com/101453514/158181448-2972dabd-b0a5-47ce-ae7b-15f2af42e46b.jpg)
 <h1>Version 1.2</h1>
 15.03.2022</br>
-Added Documents section and functions for them.
+Added Documents section and functions for them.</br>
 ![s-hK04aiSQE](https://user-images.githubusercontent.com/101453514/158367209-f485e452-778f-4f0a-80a3-4bf7c3ba5fee.jpg)
 ![UPJF57g8Q3k](https://user-images.githubusercontent.com/101453514/158367218-fe8a15f9-9804-456f-bf68-2e044ecb9205.jpg)
+<h1>Version 1.3</h1>
+15.03.2022</br>
+Added Patent Document section and functions for them.</br>
+![NB4uvgLADec](https://user-images.githubusercontent.com/101453514/158378451-860d7c29-ba61-456e-9893-f23981067be4.jpg)
+![prifDoGNrPk](https://user-images.githubusercontent.com/101453514/158378496-ebaaa941-6aed-46a6-bd9b-59f93ba2c21d.jpg)
