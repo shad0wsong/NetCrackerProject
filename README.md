@@ -35,3 +35,10 @@ Added Magazines section and functions for them.</br>
 15.03.2022</br>
 ![c896iI4bRho](https://user-images.githubusercontent.com/101453514/158385068-7e80a6a2-9ca4-4b37-93ac-5d62b131cea3.jpg)
 ![yVtliMbF67U](https://user-images.githubusercontent.com/101453514/158385081-ab52348f-2446-42fa-b0e8-91401dcddca5.jpg)
+<h1>Version 1.5</h1>
+Added search by name function for all sections.</br>
+15.03.2022</br>
+
+![1lgdZT8L95c](https://user-images.githubusercontent.com/101453514/158422871-f7572e1a-a509-4602-a2da-6ec1c50ad330.jpg)
+![dbyx0WcyvxY](https://user-images.githubusercontent.com/101453514/158423065-25ad0db7-3c7e-49f5-89fc-f3da7ad9f186.jpg)
+
