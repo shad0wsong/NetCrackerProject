@@ -1,4 +1,4 @@
-package library.models;
+package testingforfun.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package library.models;
+package testingforfun.models;
 
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;

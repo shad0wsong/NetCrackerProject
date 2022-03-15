@@ -1,4 +1,4 @@
-package library.controllers;
+package testingforfun.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import library.models.Books;
-import library.repo.BookRepository;
+import testingforfun.models.Books;
+import testingforfun.repo.BookRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

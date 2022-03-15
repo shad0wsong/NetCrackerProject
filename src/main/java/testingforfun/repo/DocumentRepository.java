@@ -1,6 +1,6 @@
-package library.repo;
+package testingforfun.repo;
 
-import library.models.Documents;
+import testingforfun.models.Documents;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DocumentRepository extends CrudRepository<Documents,Long> {

@@ -1,4 +1,4 @@
-package library;
+package testingforfun;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

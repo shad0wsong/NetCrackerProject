@@ -1,8 +1,7 @@
-package library.controllers;
+package testingforfun.controllers;
 
-import library.models.Books;
-import library.models.Documents;
-import library.repo.DocumentRepository;
+import testingforfun.models.Documents;
+import testingforfun.repo.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
