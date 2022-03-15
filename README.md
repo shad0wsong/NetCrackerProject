@@ -30,3 +30,7 @@ Added Documents section and functions for them.</br>
 Added Patent Document section and functions for them.</br>
 ![NB4uvgLADec](https://user-images.githubusercontent.com/101453514/158378451-860d7c29-ba61-456e-9893-f23981067be4.jpg)
 ![prifDoGNrPk](https://user-images.githubusercontent.com/101453514/158378496-ebaaa941-6aed-46a6-bd9b-59f93ba2c21d.jpg)
+<h1>Version 1.4</h1>
+15.03.2022</br>
+![c896iI4bRho](https://user-images.githubusercontent.com/101453514/158385068-7e80a6a2-9ca4-4b37-93ac-5d62b131cea3.jpg)
+![yVtliMbF67U](https://user-images.githubusercontent.com/101453514/158385081-ab52348f-2446-42fa-b0e8-91401dcddca5.jpg)
