@@ -55,7 +55,7 @@ public class BooksController {
         return "book/book-done";
     }
     @GetMapping("/book/{id}/edit")
-    public String bookEdit(@PathVariable(value="id") Long id, Model model) {
+    public String bookEditPage(@PathVariable(value="id") Long id, Model model) {
         if(!bookRepository.existsById(id)){
             return "redirect:/error";
         }
@@ -66,7 +66,7 @@ public class BooksController {
         return "book/book-edit";
     }
     @PostMapping("/book/{id}/edit")
-    public String blogPostEdit(@PathVariable(value="id") Long id,@RequestParam String name, @RequestParam String author,
+    public String bookEdit(@PathVariable(value="id") Long id,@RequestParam String name, @RequestParam String author,
                                @RequestParam String location,@RequestParam String ISBN,
                                @RequestParam String publicationDate, @RequestParam String modificationDate,
                                @RequestParam String addedDate, Model model) throws ParseException {
