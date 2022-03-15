@@ -1,6 +1,7 @@
 package libraryCatalog.controllers;
 
 import libraryCatalog.models.Books;
+import libraryCatalog.models.Documents;
 import libraryCatalog.models.PatentDocuments;
 import libraryCatalog.repo.PatentDocumentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +96,13 @@ public class PatentDocumentController {
         return "redirect:/patentDoc-delete";
     }
     @GetMapping("/patentDoc-delete")
-    public String bookDeleted(Model model){
+    public String patentDocDeleted(Model model){
         return "patentDoc/patentDoc-delete";
+    }
+    @PostMapping("/patentDoc/search")
+    public String patentDocSearch(@RequestParam String name, Model model){
+        Iterable<PatentDocuments> documents= patentDocumentsRepository.getByName(name);
+        model.addAttribute("patDoc",documents);
+        return "patentDoc/patentDoc-search";
     }
 }

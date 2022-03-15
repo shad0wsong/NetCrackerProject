@@ -101,5 +101,11 @@ public class BooksController {
         return "book/book-delete";
     }
 
+    @PostMapping("/book/search")
+    public String bookSearch(@RequestParam String name, Model model){
+        Iterable<Books> books= bookRepository.getByName(name);
+        model.addAttribute("book",books);
+        return "book/book-search";
+    }
 
 }

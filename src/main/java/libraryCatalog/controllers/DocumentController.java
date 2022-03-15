@@ -1,5 +1,6 @@
 package libraryCatalog.controllers;
 
+import libraryCatalog.models.Books;
 import libraryCatalog.models.Documents;
 import libraryCatalog.repo.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,5 +98,12 @@ public class DocumentController {
     @GetMapping("/doc-delete")
     public String bookDeleted(Model model){
         return "document/doc-delete";
+    }
+
+    @PostMapping("/document/search")
+    public String docSearch(@RequestParam String name, Model model){
+        Iterable<Documents> documents= documentRepository.getByName(name);
+        model.addAttribute("doc",documents);
+        return "document/doc-search";
     }
 }

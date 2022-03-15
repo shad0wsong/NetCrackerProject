@@ -1,6 +1,7 @@
 package libraryCatalog.controllers;
 
 import libraryCatalog.models.Books;
+import libraryCatalog.models.Documents;
 import libraryCatalog.models.Magazines;
 import libraryCatalog.repo.MagazineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,5 +98,12 @@ public class MagazineController {
     @GetMapping("/magazine-delete")
     public String magazineDeleted(Model model){
         return "magazine/mag-delete";
+    }
+
+    @PostMapping("/magazine/search")
+    public String magazineSearch(@RequestParam String name, Model model){
+        Iterable<Magazines> magazines= magazineRepository.getByName(name);
+        model.addAttribute("mag",magazines);
+        return "magazine/mag-search";
     }
 }
