@@ -6,17 +6,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Users {
+public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     Long id;
     String login;
     String pass;
     String email;
-    public Users(){
+    public User(){
     }
 
-    public Users(String login, String pass, String email) {
+    public User(String login, String pass, String email) {
         this.login = login;
         this.pass = pass;
         this.email = email;

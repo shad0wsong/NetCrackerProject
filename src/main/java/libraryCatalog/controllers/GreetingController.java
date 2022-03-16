@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import libraryCatalog.models.Users;
+import libraryCatalog.models.User;
 import libraryCatalog.repo.UserRepository;
 import java.util.Optional;
 
@@ -31,9 +31,9 @@ public class GreetingController  {
     }
     @PostMapping("/check-acc")
     public String checkUser(@RequestParam String login,String pass, Model model) {
-        Optional<Users> user= userRepository.findByLogin(login);
+        Optional<User> user= userRepository.findByLogin(login);
         if(user.isPresent()){
-            Users checkUser =user.get();
+            User checkUser =user.get();
             if(checkUser.getPass().equals(pass)){
                 System.out.println("access granted to "+checkUser.getLogin());
                 return "/home";            }
@@ -42,7 +42,7 @@ public class GreetingController  {
     }
     @PostMapping("/create-user")
     public String newUser(@RequestParam String login,String pass,String email, Model model) {
-        Users user= new Users(login,pass,email);
+        User user= new User(login,pass,email);
         userRepository.save(user);
         return "redirect:/enter";
     }

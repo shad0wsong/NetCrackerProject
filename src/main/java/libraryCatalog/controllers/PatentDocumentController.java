@@ -1,9 +1,8 @@
 package libraryCatalog.controllers;
 
-import libraryCatalog.models.Books;
-import libraryCatalog.models.Documents;
-import libraryCatalog.models.PatentDocuments;
-import libraryCatalog.repo.PatentDocumentsRepository;
+import libraryCatalog.businessLogic.PatentDocumentBusinessLogic;
+import libraryCatalog.models.PatentDocument;
+import libraryCatalog.repo.PatentDocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,22 +20,18 @@ import java.util.Optional;
 @Controller
 public class PatentDocumentController {
     @Autowired
-    PatentDocumentsRepository patentDocumentsRepository;
+    PatentDocumentBusinessLogic patentDocumentBusinessLogic;
     @GetMapping("/patentDoc")
     public String allPatentDoc( Model model) {
-        Iterable<PatentDocuments> patDocs= patentDocumentsRepository.findAll();
-        model.addAttribute("patDocs",patDocs);
+        patentDocumentBusinessLogic.getAllPatDoc(model);
         return "patentDoc/patentDoc-main";
     }
     @GetMapping("/patentDoc/{id}")
     public String patentDocDetails(@PathVariable(value="id") Long id, Model model) {
-        if(!patentDocumentsRepository.existsById(id)){
+        if(!patentDocumentBusinessLogic.patDocExistByID(id)){
             return "redirect:/error";
         }
-        Optional<PatentDocuments> patentDocument= patentDocumentsRepository.findById(id);
-        ArrayList<PatentDocuments> res= new ArrayList<>();
-        patentDocument.ifPresent(res::add);
-        model.addAttribute("patDoc",res);
+        patentDocumentBusinessLogic.getPatDocDetails(id, model);
         return "patentDoc/patentDoc-details";
     }
     @GetMapping("/patentDoc/add")
@@ -52,19 +47,15 @@ public class PatentDocumentController {
         format.applyPattern("yyyy-MM-dd");
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        PatentDocuments patentDocument = new PatentDocuments(name,patentNumber,author,location,addDate,modDate);
-        patentDocumentsRepository.save(patentDocument);
+        patentDocumentBusinessLogic.createPatDoc(name,patentNumber,author,location,addDate,modDate);
         return "patentDoc/patentDoc-done";
     }
     @GetMapping("/patentDoc/{id}/edit")
     public String patentDocEditPage(@PathVariable(value="id") Long id, Model model) {
-        if(!patentDocumentsRepository.existsById(id)){
+        if(!patentDocumentBusinessLogic.patDocExistByID(id)){
             return "redirect:/error";
         }
-        Optional<PatentDocuments> patentDocuments= patentDocumentsRepository.findById(id);
-        ArrayList<PatentDocuments> res= new ArrayList<>();
-        patentDocuments.ifPresent(res::add);
-        model.addAttribute("patDoc",res);
+        patentDocumentBusinessLogic.getPatDocDetails(id, model);
         return "patentDoc/patentDoc-edit";
     }
     @PostMapping("/patentDoc/{id}/edit")
@@ -75,14 +66,7 @@ public class PatentDocumentController {
         format.applyPattern("yyyy-MM-dd");
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        PatentDocuments patentDocument = patentDocumentsRepository.findById(id).orElseThrow();
-        patentDocument.setName(name);
-        patentDocument.setAuthor(author);
-        patentDocument.setLocation(location);
-        patentDocument.setPatentNumber(patentNumber);
-        patentDocument.setAddedDate(addDate);
-        patentDocument.setModificationDate(modDate);
-        patentDocumentsRepository.save(patentDocument);
+        patentDocumentBusinessLogic.editPatDoc(id,name,patentNumber,author,location,addDate,modDate);
         return "redirect:/patentDoc-done";
     }
     @GetMapping("/patentDoc-done")
@@ -91,8 +75,7 @@ public class PatentDocumentController {
     }
     @PostMapping("/patentDoc/{id}/remove")
     public String patentDocDelete(@PathVariable(value="id") Long id, Model model) {
-        PatentDocuments patentDocument = patentDocumentsRepository.findById(id).orElseThrow();
-        patentDocumentsRepository.delete(patentDocument);
+        patentDocumentBusinessLogic.deletePatDoc(id);
         return "redirect:/patentDoc-delete";
     }
     @GetMapping("/patentDoc-delete")
@@ -101,8 +84,7 @@ public class PatentDocumentController {
     }
     @PostMapping("/patentDoc/search")
     public String patentDocSearch(@RequestParam String name, Model model){
-        Iterable<PatentDocuments> documents= patentDocumentsRepository.getByName(name);
-        model.addAttribute("patDoc",documents);
+        patentDocumentBusinessLogic.searchPatDocByName(name,model);
         return "patentDoc/patentDoc-search";
     }
 }

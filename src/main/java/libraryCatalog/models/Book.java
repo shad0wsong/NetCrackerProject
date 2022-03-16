@@ -1,15 +1,16 @@
 package libraryCatalog.models;
 
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Documents {
+public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+     private Long id;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -17,30 +18,37 @@ public class Documents {
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    private String documentNumber;
+    private String ISBN;
+
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    private String author;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String location;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
-    private Date creationDate;
+    private Date publicationDate;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date addedDate;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date modificationDate;
-
-    Documents(){
+    Book(){
 
     }
 
-    public Documents(String name, String documentNumber, String location, Date creationDate, Date addedDate, Date modificationDate) {
+    public Book(String name, String ISBN, String author, String location, Date publicationDate, Date addedDate, Date modificationDate) {
         this.name = name;
-        this.documentNumber = documentNumber;
+        this.ISBN = ISBN;
+        this.author = author;
         this.location = location;
-        this.creationDate = creationDate;
+        this.publicationDate = publicationDate;
         this.addedDate = addedDate;
         this.modificationDate = modificationDate;
     }
@@ -61,12 +69,20 @@ public class Documents {
         this.name = name;
     }
 
-    public String getDocumentNumber() {
-        return documentNumber;
+    public String getISBN() {
+        return ISBN;
     }
 
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getLocation() {
@@ -77,12 +93,12 @@ public class Documents {
         this.location = location;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public Date getPublicationDate() {
+        return publicationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setPublicationDate(Date publicationDate) {
+        this.publicationDate = publicationDate;
     }
 
     public Date getAddedDate() {

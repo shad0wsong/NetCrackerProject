@@ -1,5 +1,6 @@
 package libraryCatalog.controllers;
 
+import libraryCatalog.businessLogic.BookBusinessLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,34 +8,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import libraryCatalog.models.Books;
-import libraryCatalog.repo.BookRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Optional;
 
 @Controller
-public class BooksController {
+public class BookController {
     @Autowired
-    BookRepository bookRepository;
+    BookBusinessLogic bookBusinessLogic;
     @GetMapping("/book")
     public String allBooks( Model model) {
-        Iterable<Books> books= bookRepository.findAll();
-        model.addAttribute("books",books);
+        bookBusinessLogic.getAllBooks(model);
         return "book/book-main";
     }
     @GetMapping("/book/{id}")
     public String bookDetails(@PathVariable(value="id") Long id, Model model) {
-        if(!bookRepository.existsById(id)){
+        if(!bookBusinessLogic.bookExistByID(id)){
             return "redirect:/error";
         }
-        Optional<Books> book= bookRepository.findById(id);
-        ArrayList<Books> res= new ArrayList<>();
-        book.ifPresent(res::add);
-        model.addAttribute("book",res);
+        bookBusinessLogic.getBookDetails(id,model);
         return "book/book-details";
     }
     @GetMapping("/book/add")
@@ -50,19 +43,15 @@ public class BooksController {
         Date pubDate= format.parse(publicationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        Books book = new Books(name,ISBN,author,location,pubDate,addDate,modDate);
-        bookRepository.save(book);
+        bookBusinessLogic.createBook(name,ISBN,author,location,pubDate,addDate,modDate);
         return "book/book-done";
     }
     @GetMapping("/book/{id}/edit")
     public String bookEditPage(@PathVariable(value="id") Long id, Model model) {
-        if(!bookRepository.existsById(id)){
+        if(!bookBusinessLogic.bookExistByID(id)){
             return "redirect:/error";
         }
-        Optional<Books> book= bookRepository.findById(id);
-        ArrayList<Books> res= new ArrayList<>();
-        book.ifPresent(res::add);
-        model.addAttribute("book",res);
+        bookBusinessLogic.getBookDetails(id,model);
         return "book/book-edit";
     }
     @PostMapping("/book/{id}/edit")
@@ -75,15 +64,7 @@ public class BooksController {
         Date pubDate= format.parse(publicationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        Books book = bookRepository.findById(id).orElseThrow();
-        book.setName(name);
-        book.setAuthor(author);
-        book.setLocation(location);
-        book.setISBN(ISBN);
-        book.setPublicationDate(pubDate);
-        book.setAddedDate(addDate);
-        book.setModificationDate(modDate);
-        bookRepository.save(book);
+        bookBusinessLogic.editBook(id,name,ISBN,author,location,pubDate,addDate,modDate);
         return "redirect:/book-done";
     }
     @GetMapping("/book-done")
@@ -92,8 +73,7 @@ public class BooksController {
     }
     @PostMapping("/book/{id}/remove")
     public String bookDelete(@PathVariable(value="id") Long id, Model model) {
-        Books book = bookRepository.findById(id).orElseThrow();
-        bookRepository.delete(book);
+        bookBusinessLogic.deleteBook(id);
         return "redirect:/book-delete";
     }
     @GetMapping("/book-delete")
@@ -103,8 +83,7 @@ public class BooksController {
 
     @PostMapping("/book/search")
     public String bookSearch(@RequestParam String name, Model model){
-        Iterable<Books> books= bookRepository.getByName(name);
-        model.addAttribute("book",books);
+        bookBusinessLogic.searchBookByName(name,model);
         return "book/book-search";
     }
 

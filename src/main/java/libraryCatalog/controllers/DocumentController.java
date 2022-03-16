@@ -1,7 +1,7 @@
 package libraryCatalog.controllers;
 
-import libraryCatalog.models.Books;
-import libraryCatalog.models.Documents;
+import libraryCatalog.businessLogic.DocumentBusinessLogic;
+import libraryCatalog.models.Document;
 import libraryCatalog.repo.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,22 +20,19 @@ import java.util.Optional;
 @Controller
 public class DocumentController {
     @Autowired
-    DocumentRepository documentRepository;
+    DocumentBusinessLogic documentBusinessLogic;
+
     @GetMapping("/document")
     public String allDocs( Model model) {
-        Iterable<Documents> docs= documentRepository.findAll();
-        model.addAttribute("docs",docs);
+        documentBusinessLogic.getAllDocs(model);
         return "document/doc-main";
     }
     @GetMapping("/document/{id}")
     public String docDetails(@PathVariable(value="id") Long id, Model model) {
-        if(!documentRepository.existsById(id)){
+        if(!documentBusinessLogic.docExistByID(id)){
             return "redirect:/error";
         }
-        Optional<Documents> doc= documentRepository.findById(id);
-        ArrayList<Documents> res= new ArrayList<>();
-        doc.ifPresent(res::add);
-        model.addAttribute("doc",res);
+        documentBusinessLogic.getDocDetails(id, model);
         return "document/doc-details";
     }
     @GetMapping("/document/add")
@@ -51,19 +48,15 @@ public class DocumentController {
         Date creatDate= format.parse(creationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        Documents document = new Documents(name,documentNumber,location,creatDate,addDate,modDate);
-        documentRepository.save(document);
+        documentBusinessLogic.createDoc(name,documentNumber,location,creatDate,addDate,modDate);
         return "document/doc-done";
     }
     @GetMapping("/document/{id}/edit")
-    public String docEdit(@PathVariable(value="id") Long id, Model model) {
-        if(!documentRepository.existsById(id)){
+    public String docEditPage(@PathVariable(value="id") Long id, Model model) {
+        if(!documentBusinessLogic.docExistByID(id)){
             return "redirect:/error";
         }
-        Optional<Documents> document= documentRepository.findById(id);
-        ArrayList<Documents> res= new ArrayList<>();
-        document.ifPresent(res::add);
-        model.addAttribute("doc",res);
+        documentBusinessLogic.getDocDetails(id, model);
         return "document/doc-edit";
     }
     @GetMapping("/doc-done")
@@ -71,7 +64,7 @@ public class DocumentController {
         return "document/doc-done";
     }
     @PostMapping("/document/{id}/edit")
-    public String blogPostEdit(@PathVariable(value="id") Long id,@RequestParam String name, @RequestParam String documentNumber, @RequestParam String location,
+    public String DocEdit(@PathVariable(value="id") Long id,@RequestParam String name, @RequestParam String documentNumber, @RequestParam String location,
                                @RequestParam String creationDate, @RequestParam String modificationDate,
                                @RequestParam String addedDate, Model model) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat();
@@ -79,31 +72,22 @@ public class DocumentController {
         Date creatDate= format.parse(creationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        Documents document = documentRepository.findById(id).orElseThrow();
-        document.setName(name);
-        document.setDocumentNumber(documentNumber);
-        document.setLocation(location);
-        document.setCreationDate(creatDate);
-        document.setAddedDate(addDate);
-        document.setModificationDate(modDate);
-        documentRepository.save(document);
+        documentBusinessLogic.editDoc(id,name,documentNumber,location,creatDate,addDate,modDate);
         return "redirect:/doc-done";
     }
     @PostMapping("/document/{id}/remove")
-    public String bookDelete(@PathVariable(value="id") Long id, Model model) {
-        Documents document = documentRepository.findById(id).orElseThrow();
-        documentRepository.delete(document);
+    public String docDelete(@PathVariable(value="id") Long id, Model model) {
+        documentBusinessLogic.deleteDoc(id);
         return "redirect:/doc-delete";
     }
     @GetMapping("/doc-delete")
-    public String bookDeleted(Model model){
+    public String docDeleted(Model model){
         return "document/doc-delete";
     }
 
     @PostMapping("/document/search")
     public String docSearch(@RequestParam String name, Model model){
-        Iterable<Documents> documents= documentRepository.getByName(name);
-        model.addAttribute("doc",documents);
+        documentBusinessLogic.searchDocByName(name, model);
         return "document/doc-search";
     }
 }

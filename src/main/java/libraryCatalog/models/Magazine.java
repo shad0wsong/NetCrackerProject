@@ -1,16 +1,14 @@
 package libraryCatalog.models;
 
 import org.hibernate.annotations.Type;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
-
 @Entity
-public class Books {
+public class Magazine {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-     private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -18,35 +16,22 @@ public class Books {
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    private String ISBN;
-
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String author;
-
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
     private String location;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date addedDate;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date modificationDate;
-    Books(){
+    Magazine(){
 
     }
 
-    public Books(String name, String ISBN, String author, String location, Date publicationDate, Date addedDate, Date modificationDate) {
+    public Magazine(String name, String location, Date publicationDate, Date addedDate, Date modificationDate) {
         this.name = name;
-        this.ISBN = ISBN;
-        this.author = author;
         this.location = location;
         this.publicationDate = publicationDate;
         this.addedDate = addedDate;
@@ -67,22 +52,6 @@ public class Books {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getISBN() {
-        return ISBN;
-    }
-
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public String getLocation() {

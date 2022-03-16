@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class PatentDocuments {
+public class PatentDocument {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -32,11 +32,11 @@ public class PatentDocuments {
 
     @Temporal(TemporalType.DATE)
     private Date modificationDate;
-    PatentDocuments(){
+    PatentDocument(){
 
     }
 
-    public PatentDocuments(String name, String patentNumber, String author, String location, Date addedDate, Date modificationDate) {
+    public PatentDocument(String name, String patentNumber, String author, String location, Date addedDate, Date modificationDate) {
         this.name = name;
         this.patentNumber = patentNumber;
         this.author = author;

@@ -4,8 +4,9 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
+
 @Entity
-public class Magazines {
+public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -16,24 +17,30 @@ public class Magazines {
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
+    private String documentNumber;
+
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     private String location;
 
     @Temporal(TemporalType.DATE)
-    private Date publicationDate;
+    private Date creationDate;
 
     @Temporal(TemporalType.DATE)
     private Date addedDate;
 
     @Temporal(TemporalType.DATE)
     private Date modificationDate;
-    Magazines(){
+
+    Document(){
 
     }
 
-    public Magazines(String name, String location, Date publicationDate, Date addedDate, Date modificationDate) {
+    public Document(String name, String documentNumber, String location, Date creationDate, Date addedDate, Date modificationDate) {
         this.name = name;
+        this.documentNumber = documentNumber;
         this.location = location;
-        this.publicationDate = publicationDate;
+        this.creationDate = creationDate;
         this.addedDate = addedDate;
         this.modificationDate = modificationDate;
     }
@@ -54,6 +61,14 @@ public class Magazines {
         this.name = name;
     }
 
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
     public String getLocation() {
         return location;
     }
@@ -62,12 +77,12 @@ public class Magazines {
         this.location = location;
     }
 
-    public Date getPublicationDate() {
-        return publicationDate;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setPublicationDate(Date publicationDate) {
-        this.publicationDate = publicationDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Date getAddedDate() {
