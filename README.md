@@ -41,4 +41,6 @@ Added search by name function for all sections.</br>
 
 ![1lgdZT8L95c](https://user-images.githubusercontent.com/101453514/158422871-f7572e1a-a509-4602-a2da-6ec1c50ad330.jpg)
 ![dbyx0WcyvxY](https://user-images.githubusercontent.com/101453514/158423065-25ad0db7-3c7e-49f5-89fc-f3da7ad9f186.jpg)
-
+<h1>Version 1.6</h1>
+Added  extra business layer.</br>
+16.03.2022</br>
