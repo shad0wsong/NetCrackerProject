@@ -44,3 +44,5 @@ Added search by name function for all sections.</br>
 <h1>Version 1.6</h1>
 Added  extra business layer.</br>
 16.03.2022</br>
+<h1>Version 1.7</h1>
+All sections now also storage as JSON.Also added intefaces for business layer</br>
