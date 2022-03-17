@@ -100,4 +100,16 @@ public class PatentDocument {
     public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
     }
+    @Override
+    public String toString() {
+        return "PatentDocument{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", patentNumber='" + patentNumber + '\'' +
+                ", author='" + author + '\'' +
+                ", location='" + location + '\'' +
+                ", addedDate=" + addedDate +
+                ", modificationDate=" + modificationDate +
+                '}';
+    }
 }

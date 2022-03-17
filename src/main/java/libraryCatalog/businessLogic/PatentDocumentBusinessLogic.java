@@ -1,58 +1,56 @@
 package libraryCatalog.businessLogic;
 
+import libraryCatalog.JSONInterfaces.PatentDocJSONInterface;
+import libraryCatalog.businessLogicInterfaces.PatentDocumentBusinessLogicInterface;
 import libraryCatalog.models.Book;
 import libraryCatalog.models.PatentDocument;
-import libraryCatalog.repo.BookRepository;
-import libraryCatalog.repo.PatentDocumentRepository;
+import libraryCatalog.repoInterfaces.PatentDocumentManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class PatentDocumentBusinessLogic {
+public class PatentDocumentBusinessLogic implements PatentDocumentBusinessLogicInterface {
     @Autowired
-    PatentDocumentRepository patentDocumentRepository;
-
-    public void createPatDoc(String name,String patentNumber,String author,String location, Date addDate,Date modDate){
-        PatentDocument patentDocument = new PatentDocument(name,patentNumber,author,location,addDate,modDate);
-        patentDocumentRepository.save(patentDocument);
+    PatentDocumentManagerInterface patentDocumentManagerInterface;
+    @Autowired
+    PatentDocJSONInterface patentDocJSONInterface;
+    public void createPatDoc(PatentDocument patentDocument) throws IOException {
+        patentDocumentManagerInterface.save(patentDocument);
+        PatentDocument copy = new PatentDocument(patentDocument.getName(),patentDocument.getPatentNumber(),patentDocument.getAuthor(),
+                patentDocument.getLocation(),patentDocument.getAddedDate(),patentDocument.getModificationDate());
+        Long docID= patentDocumentManagerInterface.getMaxID();
+        copy.setId(docID);
+        patentDocJSONInterface.PatentDocToJSONandFile(copy);
     }
-    public void getAllPatDoc(Model model){
-        Iterable<PatentDocument> patDocs= patentDocumentRepository.findAll();
+    public void getAllPatDoc(Iterable<PatentDocument> patDocs,Model model){
         model.addAttribute("patDocs",patDocs);
     }
-    public void getPatDocDetails(Long id ,Model model){
-        Optional<PatentDocument> patentDocument= patentDocumentRepository.findById(id);
+    public void getPatDocDetails(Optional<PatentDocument> patentDocument ,Model model){
         ArrayList<PatentDocument> res= new ArrayList<>();
         patentDocument.ifPresent(res::add);
         model.addAttribute("patDoc",res);
     }
-    public void editPatDoc(Long id ,String name, String patentNumber, String author, String location,Date addDate,Date modDate){
-        PatentDocument patentDocument = patentDocumentRepository.findById(id).orElseThrow();
-        patentDocument.setName(name);
-        patentDocument.setAuthor(author);
-        patentDocument.setLocation(location);
-        patentDocument.setPatentNumber(patentNumber);
-        patentDocument.setAddedDate(addDate);
-        patentDocument.setModificationDate(modDate);
-        patentDocumentRepository.save(patentDocument);
+    public void editPatDoc(PatentDocument patentDocument) throws IOException {
+        patentDocumentManagerInterface.save(patentDocument);
+        patentDocJSONInterface.PatentDocToJSONandFile(patentDocument);
     }
-    public void deletePatDoc(Long id){
-        PatentDocument patentDocument = patentDocumentRepository.findById(id).orElseThrow();
-        patentDocumentRepository.delete(patentDocument);
+    public void deletePatDoc(PatentDocument patentDocument){
+        patentDocumentManagerInterface.delete(patentDocument);
+        patentDocJSONInterface.DeleteJSON(patentDocument);
     }
     public boolean patDocExistByID(Long id){
-        if(patentDocumentRepository.existsById(id)){
+        if(patentDocumentManagerInterface.existsById(id)){
             return true ;
         }
         return false;
     }
-    public void searchPatDocByName(String name,Model model){
-        Iterable<PatentDocument> documents= patentDocumentRepository.getByName(name);
+    public void searchPatDocByName(Iterable<PatentDocument> documents,Model model){
         model.addAttribute("patDoc",documents);
     }
 }

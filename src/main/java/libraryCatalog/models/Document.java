@@ -26,6 +26,7 @@ public class Document {
     @Temporal(TemporalType.DATE)
     private Date creationDate;
 
+
     @Temporal(TemporalType.DATE)
     private Date addedDate;
 
@@ -99,5 +100,17 @@ public class Document {
 
     public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
+    }
+    @Override
+    public String toString() {
+        return "Document{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", documentNumber='" + documentNumber + '\'' +
+                ", location='" + location + '\'' +
+                ", creationDate=" + creationDate +
+                ", addedDate=" + addedDate +
+                ", modificationDate=" + modificationDate +
+                '}';
     }
 }

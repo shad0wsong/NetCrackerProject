@@ -21,6 +21,7 @@ public class Magazine {
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
 
+
     @Temporal(TemporalType.DATE)
     private Date addedDate;
 
@@ -84,5 +85,16 @@ public class Magazine {
 
     public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
+    }
+    @Override
+    public String toString() {
+        return "Magazine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", publicationDate=" + publicationDate +
+                ", addedDate=" + addedDate +
+                ", modificationDate=" + modificationDate +
+                '}';
     }
 }

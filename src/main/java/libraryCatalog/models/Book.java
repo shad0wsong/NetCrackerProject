@@ -20,6 +20,7 @@ public class Book {
     @Type(type = "org.hibernate.type.TextType")
     private String ISBN;
 
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String author;
@@ -115,5 +116,18 @@ public class Book {
 
     public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
+    }
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", ISBN='" + ISBN + '\'' +
+                ", author='" + author + '\'' +
+                ", location='" + location + '\'' +
+                ", publicationDate=" + publicationDate +
+                ", addedDate=" + addedDate +
+                ", modificationDate=" + modificationDate +
+                '}';
     }
 }

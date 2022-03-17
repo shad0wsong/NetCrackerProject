@@ -1,8 +1,9 @@
 package libraryCatalog.controllers;
 
 import libraryCatalog.businessLogic.MagazineBusinessLogic;
+import libraryCatalog.businessLogicInterfaces.MagazineBusinessLogicInterface;
 import libraryCatalog.models.Magazine;
-import libraryCatalog.repo.MagazineRepository;
+import libraryCatalog.repoInterfaces.MagazineManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,27 +12,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
 @Controller
 public class MagazineController {
     @Autowired
-    MagazineBusinessLogic magazineBusinessLogic;
+    MagazineBusinessLogicInterface magazineBusinessLogicInterface;
+    @Autowired
+    MagazineManagerInterface magazineManagerInterface;
+
     @GetMapping("/magazine")
     public String allMagazines( Model model) {
-        magazineBusinessLogic.getAllMagazine(model);
+        Iterable<Magazine> magazines= magazineManagerInterface.findAll();
+        magazineBusinessLogicInterface.getAllMagazine(magazines,model);
         return "magazine/mag-main";
     }
     @GetMapping("/magazine/{id}")
     public String magazineDetails(@PathVariable(value="id") Long id, Model model) {
-        if(!magazineBusinessLogic.magazineExistByID(id)){
+        if(!magazineBusinessLogicInterface.magazineExistByID(id)){
             return "redirect:/error";
         }
-        magazineBusinessLogic.getMagazineDetails(id, model);
+        Optional<Magazine> magazine= magazineManagerInterface.findById(id);
+        magazineBusinessLogicInterface.getMagazineDetails(magazine, model);
         return "magazine/mag-details";
     }
     @GetMapping("/magazine/add")
@@ -41,33 +47,41 @@ public class MagazineController {
     @PostMapping("/magazine/add")
     public String addMagazine(@RequestParam String name, @RequestParam String location,
                           @RequestParam String publicationDate, @RequestParam String modificationDate,
-                          @RequestParam String addedDate, Model model) throws ParseException {
+                          @RequestParam String addedDate, Model model) throws ParseException, IOException {
         SimpleDateFormat format = new SimpleDateFormat();
         format.applyPattern("yyyy-MM-dd");
         Date pubDate= format.parse(publicationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        magazineBusinessLogic.createMagazine(name,location,pubDate,addDate,modDate);
+        Magazine magazine = new Magazine(name,location,pubDate,addDate,modDate);
+        magazineBusinessLogicInterface.createMagazine(magazine);
         return "magazine/mag-done";
     }
     @GetMapping("/magazine/{id}/edit")
     public String magazineEditPage(@PathVariable(value="id") Long id, Model model) {
-        if(!magazineBusinessLogic.magazineExistByID(id)){
+        if(!magazineBusinessLogicInterface.magazineExistByID(id)){
             return "redirect:/error";
         }
-        magazineBusinessLogic.getMagazineDetails(id, model);
+        Optional<Magazine> magazine= magazineManagerInterface.findById(id);
+        magazineBusinessLogicInterface.getMagazineDetails(magazine, model);
         return "magazine/mag-edit";
     }
     @PostMapping("/magazine/{id}/edit")
     public String magazineEdit(@PathVariable(value="id") Long id,@RequestParam String name, @RequestParam String location,
                                @RequestParam String publicationDate, @RequestParam String modificationDate,
-                               @RequestParam String addedDate, Model model) throws ParseException {
+                               @RequestParam String addedDate, Model model) throws ParseException, IOException {
         SimpleDateFormat format = new SimpleDateFormat();
         format.applyPattern("yyyy-MM-dd");
         Date pubDate= format.parse(publicationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        magazineBusinessLogic.editMagazine(id,name,location,pubDate,addDate,modDate);
+        Magazine magazine = magazineManagerInterface.findById(id).orElseThrow();
+        magazine.setName(name);
+        magazine.setLocation(location);
+        magazine.setPublicationDate(pubDate);
+        magazine.setAddedDate(addDate);
+        magazine.setModificationDate(modDate);
+        magazineBusinessLogicInterface.editMagazine(magazine);
         return "redirect:/magazine-done";
     }
     @GetMapping("/magazine-done")
@@ -76,7 +90,8 @@ public class MagazineController {
     }
     @PostMapping("/magazine/{id}/remove")
     public String magazineDelete(@PathVariable(value="id") Long id, Model model) {
-        magazineBusinessLogic.deleteMagazine(id);
+        Magazine magazine = magazineManagerInterface.findById(id).orElseThrow();
+        magazineBusinessLogicInterface.deleteMagazine(magazine);
         return "redirect:/magazine-delete";
     }
     @GetMapping("/magazine-delete")
@@ -86,7 +101,8 @@ public class MagazineController {
 
     @PostMapping("/magazine/search")
     public String magazineSearch(@RequestParam String name, Model model){
-        magazineBusinessLogic.searchMagazineByName(name, model);
+        Iterable<Magazine> magazines= magazineManagerInterface.getByName(name);
+        magazineBusinessLogicInterface.searchMagazineByName(magazines, model);
         return "magazine/mag-search";
     }
 }

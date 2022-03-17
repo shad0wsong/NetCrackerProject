@@ -26,6 +26,16 @@ public class User {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", pass='" + pass + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
     public String getLogin() {
         return login;
     }

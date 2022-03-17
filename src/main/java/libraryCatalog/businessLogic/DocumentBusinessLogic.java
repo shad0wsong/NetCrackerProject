@@ -1,61 +1,63 @@
 package libraryCatalog.businessLogic;
 
-import libraryCatalog.models.Book;
+import libraryCatalog.JSONInterfaces.DocJSONInterface;
+import libraryCatalog.businessLogicInterfaces.DocumentBusinessLogicInterface;
 import libraryCatalog.models.Document;
-import libraryCatalog.repo.DocumentRepository;
+import libraryCatalog.repoInterfaces.DocumentManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
-@Service
-public class DocumentBusinessLogic {
-    @Autowired
-    DocumentRepository documentRepository;
 
-    public void createDoc(String name, String documentNumber, String location, Date creatDate, Date addDate, Date modDate){
-        Document document = new Document(name,documentNumber,location,creatDate,addDate,modDate);
-        documentRepository.save(document);
+@Service
+public class DocumentBusinessLogic implements DocumentBusinessLogicInterface {
+    @Autowired
+    DocumentManagerInterface documentManagerInterface;
+    @Autowired
+    DocJSONInterface docJSONInterface;
+
+    public DocumentBusinessLogic() {
     }
-    public void getAllDocs(Model model){
-        Iterable<Document> docs= documentRepository.findAll();
+
+    public void createDoc(Document document) throws IOException {
+        documentManagerInterface.save(document);
+        Document copy = new Document(document.getName(),document.getDocumentNumber(),
+                document.getLocation(),document.getCreationDate(),document.getAddedDate(),document.getModificationDate());
+        Long docID= documentManagerInterface.getMaxID();
+        copy.setId(docID);
+        docJSONInterface.DocToJSONandFile(copy);
+
+    }
+    public void getAllDocs(Iterable<Document> docs,Model model){
         model.addAttribute("docs",docs);
     }
-    public void getDocDetails(Long id ,Model model){
-        Optional<Document> doc= documentRepository.findById(id);
+
+    public void getDocDetails(Optional<Document> doc,Model model){
         ArrayList<Document> res= new ArrayList<>();
         doc.ifPresent(res::add);
         model.addAttribute("doc",res);
     }
-    public void editDoc(Long id,  String name,  String documentNumber,  String location,
-                         Date creationDate,Date modDate,
-                         Date addedDate){
-        Document document = documentRepository.findById(id).orElseThrow();
-        document.setName(name);
-        document.setDocumentNumber(documentNumber);
-        document.setLocation(location);
-        document.setCreationDate(creationDate);
-        document.setAddedDate(addedDate);
-        document.setModificationDate(modDate);
-        documentRepository.save(document);
+    public void editDoc(Document document) throws IOException {
+        documentManagerInterface.save(document);
+        docJSONInterface.DocToJSONandFile(document);
+
     }
-    public void deleteDoc(Long id){
-        Document document = documentRepository.findById(id).orElseThrow();
-        documentRepository.delete(document);
+    public void deleteDoc(Document document){
+        documentManagerInterface.delete(document);
+        docJSONInterface.DeleteJSON(document);
     }
     public boolean docExistByID(Long id){
-        if(documentRepository.existsById(id)){
+        if(documentManagerInterface.existsById(id)){
             return true ;
         }
         return false;
     }
-    public void searchDocByName(String name,Model model){
-        Iterable<Document> documents= documentRepository.getByName(name);
+    public void searchDocByName(Iterable<Document> documents,Model model){
         model.addAttribute("doc",documents);
     }
 }

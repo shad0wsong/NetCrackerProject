@@ -1,57 +1,57 @@
 package libraryCatalog.businessLogic;
 
+import libraryCatalog.JSONInterfaces.BookJSONInterface;
+import libraryCatalog.businessLogicInterfaces.BookBusinessLogicInterface;
 import libraryCatalog.models.Book;
-import libraryCatalog.repo.BookRepository;
+import libraryCatalog.models.Document;
+import libraryCatalog.repoInterfaces.BookManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class BookBusinessLogic {
+public class BookBusinessLogic implements BookBusinessLogicInterface {
     @Autowired
-    BookRepository bookRepository;
+    BookManagerInterface bookManagerInterface;
+    @Autowired
+    BookJSONInterface bookJSONInterface;
 
-    public void createBook(String name, String ISBN, String author, String location, Date pubDate,Date addDate,Date modDate){
-        Book book = new Book(name,ISBN,author,location,pubDate,addDate,modDate);
-        bookRepository.save(book);
+    public void createBook(Book book) throws IOException {
+        bookManagerInterface.save(book);
+        Book copy = new Book(book.getName(),book.getISBN(),book.getAuthor(),
+                book.getLocation(),book.getPublicationDate(),book.getAddedDate(),book.getModificationDate());
+        Long bookID= bookManagerInterface.getMaxID();
+        copy.setId(bookID);
+        bookJSONInterface.BookToJSONandFile(copy);
     }
-    public void getAllBooks(Model model){
-        Iterable<Book> books= bookRepository.findAll();
+    public void getAllBooks(Iterable<Book> books,Model model){
         model.addAttribute("books",books);
     }
-    public void getBookDetails(Long id ,Model model){
-        Optional<Book> book= bookRepository.findById(id);
+    public void getBookDetails(Optional<Book> book ,Model model){
         ArrayList<Book> res= new ArrayList<>();
         book.ifPresent(res::add);
         model.addAttribute("book",res);
     }
-    public void editBook(Long id ,String name, String ISBN, String author, String location, Date pubDate,Date addDate,Date modDate){
-        Book book = bookRepository.findById(id).orElseThrow();
-        book.setName(name);
-        book.setAuthor(author);
-        book.setLocation(location);
-        book.setISBN(ISBN);
-        book.setPublicationDate(pubDate);
-        book.setAddedDate(addDate);
-        book.setModificationDate(modDate);
-        bookRepository.save(book);
+    public void editBook(Book book,Model model) throws IOException {
+        bookManagerInterface.save(book);
+        bookJSONInterface.BookToJSONandFile(book);
     }
-    public void deleteBook(Long id){
-        Book book = bookRepository.findById(id).orElseThrow();
-        bookRepository.delete(book);
+    public void deleteBook(Book book){
+        bookManagerInterface.delete(book);
+        bookJSONInterface.DeleteJSON(book);
     }
     public boolean bookExistByID(Long id){
-        if(bookRepository.existsById(id)){
+        if(bookManagerInterface.existsById(id)){
             return true ;
         }
         return false;
     }
-    public void searchBookByName(String name,Model model){
-        Iterable<Book> books= bookRepository.getByName(name);
+    public void searchBookByName(Iterable<Book> books,Model model){
         model.addAttribute("book",books);
     }
 

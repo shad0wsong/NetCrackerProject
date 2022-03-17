@@ -1,57 +1,59 @@
 package libraryCatalog.businessLogic;
 
+import libraryCatalog.JSONInterfaces.MagazineJSONInterface;
+import libraryCatalog.businessLogicInterfaces.MagazineBusinessLogicInterface;
 import libraryCatalog.models.Magazine;
 import libraryCatalog.models.PatentDocument;
-import libraryCatalog.repo.MagazineRepository;
+import libraryCatalog.repoInterfaces.MagazineManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class MagazineBusinessLogic {
+public class MagazineBusinessLogic implements MagazineBusinessLogicInterface {
 
     @Autowired
-    MagazineRepository magazineRepository;
+    MagazineManagerInterface magazineManagerInterface;
 
-    public void createMagazine(String name, String location,Date pubDate, Date addDate, Date modDate){
-        Magazine magazine = new Magazine(name,location,pubDate,addDate,modDate);
-        magazineRepository.save(magazine);
+    @Autowired
+    MagazineJSONInterface magazineJSONInterface;
+
+    public void createMagazine(Magazine magazine) throws IOException {
+        magazineManagerInterface.save(magazine);
+        Magazine copy = new Magazine(magazine.getName(),
+                magazine.getLocation(),magazine.getPublicationDate(),magazine.getAddedDate(),magazine.getModificationDate());
+        Long magazineID= magazineManagerInterface.getMaxID();
+        copy.setId(magazineID);
+        magazineJSONInterface.MagazineToJSONandFile(copy);
     }
-    public void getAllMagazine(Model model){
-        Iterable<Magazine> magazines= magazineRepository.findAll();
+    public void getAllMagazine(Iterable<Magazine> magazines,Model model){
         model.addAttribute("magazines",magazines);
     }
-    public void getMagazineDetails(Long id ,Model model){
-        Optional<Magazine> magazine= magazineRepository.findById(id);
+    public void getMagazineDetails(Optional<Magazine> magazine ,Model model){
         ArrayList<Magazine> res= new ArrayList<>();
         magazine.ifPresent(res::add);
         model.addAttribute("magazine",res);
     }
-    public void editMagazine(Long id ,String name, String location,Date pubDate, Date addDate, Date modDate){
-        Magazine magazine = magazineRepository.findById(id).orElseThrow();
-        magazine.setName(name);
-        magazine.setLocation(location);
-        magazine.setPublicationDate(pubDate);
-        magazine.setAddedDate(addDate);
-        magazine.setModificationDate(modDate);
-        magazineRepository.save(magazine);
+    public void editMagazine(Magazine magazine) throws IOException {
+        magazineManagerInterface.save(magazine);
+        magazineJSONInterface.MagazineToJSONandFile(magazine);
     }
-    public void deleteMagazine(Long id){
-        Magazine magazine = magazineRepository.findById(id).orElseThrow();
-        magazineRepository.delete(magazine);
+    public void deleteMagazine(Magazine magazine){
+        magazineManagerInterface.delete(magazine);
+        magazineJSONInterface.DeleteJSON(magazine);
     }
     public boolean magazineExistByID(Long id){
-        if(magazineRepository.existsById(id)){
+        if(magazineManagerInterface.existsById(id)){
             return true ;
         }
         return false;
     }
-    public void searchMagazineByName(String name,Model model){
-        Iterable<Magazine> magazines= magazineRepository.getByName(name);
+    public void searchMagazineByName(Iterable<Magazine> magazines,Model model){
         model.addAttribute("mag",magazines);
     }
 

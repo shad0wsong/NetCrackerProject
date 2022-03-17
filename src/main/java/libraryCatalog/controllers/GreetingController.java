@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import libraryCatalog.models.User;
-import libraryCatalog.repo.UserRepository;
+import libraryCatalog.repoInterfaces.UserManagerInterface;
 import java.util.Optional;
 
 
 @Controller
 public class GreetingController  {
     @Autowired
-    UserRepository userRepository;
+    UserManagerInterface userManagerInterface;
     public GreetingController()  {
     }
     @GetMapping("/xd")
@@ -31,7 +31,7 @@ public class GreetingController  {
     }
     @PostMapping("/check-acc")
     public String checkUser(@RequestParam String login,String pass, Model model) {
-        Optional<User> user= userRepository.findByLogin(login);
+        Optional<User> user= userManagerInterface.findByLogin(login);
         if(user.isPresent()){
             User checkUser =user.get();
             if(checkUser.getPass().equals(pass)){
@@ -43,7 +43,7 @@ public class GreetingController  {
     @PostMapping("/create-user")
     public String newUser(@RequestParam String login,String pass,String email, Model model) {
         User user= new User(login,pass,email);
-        userRepository.save(user);
+        userManagerInterface.save(user);
         return "redirect:/enter";
     }
 
