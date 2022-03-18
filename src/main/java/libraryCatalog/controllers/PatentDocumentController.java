@@ -2,7 +2,9 @@ package libraryCatalog.controllers;
 
 import libraryCatalog.businessLogic.PatentDocumentBusinessLogic;
 import libraryCatalog.businessLogicInterfaces.PatentDocumentBusinessLogicInterface;
+import libraryCatalog.models.Location;
 import libraryCatalog.models.PatentDocument;
+import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import libraryCatalog.repoInterfaces.PatentDocumentManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,8 @@ public class PatentDocumentController {
     PatentDocumentBusinessLogicInterface patentDocumentBusinessLogicInterface;
     @Autowired
     PatentDocumentManagerInterface patentDocumentManagerInterface;
+    @Autowired
+    LocationManagerInterface locationManagerInterface;
     @GetMapping("/patentDoc")
     public String allPatentDoc( Model model) {
         Iterable<PatentDocument> patDocs= patentDocumentManagerInterface.findAll();
@@ -52,7 +56,9 @@ public class PatentDocumentController {
         format.applyPattern("yyyy-MM-dd");
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        PatentDocument patentDocument = new PatentDocument(name,patentNumber,author,location,addDate,modDate);
+        Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        Location locationObj=locationOptional.get();
+        PatentDocument patentDocument = new PatentDocument(name,patentNumber,author,locationObj,addDate,modDate);
         patentDocumentBusinessLogicInterface.createPatDoc(patentDocument);
         return "patentDoc/patentDoc-done";
     }
@@ -73,10 +79,12 @@ public class PatentDocumentController {
         format.applyPattern("yyyy-MM-dd");
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
+        Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        Location locationObj=locationOptional.get();
         PatentDocument patentDocument = patentDocumentManagerInterface.findById(id).orElseThrow();
         patentDocument.setName(name);
         patentDocument.setAuthor(author);
-        patentDocument.setLocation(location);
+        patentDocument.setLocation(locationObj);
         patentDocument.setPatentNumber(patentNumber);
         patentDocument.setAddedDate(addDate);
         patentDocument.setModificationDate(modDate);

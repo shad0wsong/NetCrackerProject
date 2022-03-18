@@ -19,9 +19,17 @@ public class Location {
     @Type(type = "org.hibernate.type.TextType")
     private String libraryNumber;
 
-    @OneToMany (mappedBy="location",fetch = FetchType.EAGER)
+    @OneToMany (mappedBy="location")
     private List<Book> books;
 
+    @OneToMany (mappedBy="docLocation")
+    private List<Document> documents;
+
+    @OneToMany (mappedBy="patentDocLocation")
+    private List<PatentDocument> patentDocuments;
+
+    @OneToMany (mappedBy="magazineLocation")
+    private List<Magazine> magazines;
 
     Location(){
 

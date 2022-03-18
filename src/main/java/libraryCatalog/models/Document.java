@@ -19,9 +19,9 @@ public class Document {
     @Type(type = "org.hibernate.type.TextType")
     private String documentNumber;
 
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String location;
+    @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @JoinColumn (name="locationid")
+    private Location docLocation;
 
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -37,10 +37,10 @@ public class Document {
 
     }
 
-    public Document(String name, String documentNumber, String location, Date creationDate, Date addedDate, Date modificationDate) {
+    public Document(String name, String documentNumber, Location location, Date creationDate, Date addedDate, Date modificationDate) {
         this.name = name;
         this.documentNumber = documentNumber;
-        this.location = location;
+        this.docLocation = location;
         this.creationDate = creationDate;
         this.addedDate = addedDate;
         this.modificationDate = modificationDate;
@@ -70,12 +70,12 @@ public class Document {
         this.documentNumber = documentNumber;
     }
 
-    public String getLocation() {
-        return location;
+    public Location getLocation() {
+        return docLocation;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocation(Location location) {
+        this.docLocation = location;
     }
 
     public Date getCreationDate() {
@@ -107,7 +107,7 @@ public class Document {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", documentNumber='" + documentNumber + '\'' +
-                ", location='" + location + '\'' +
+                ", location='" + docLocation + '\'' +
                 ", creationDate=" + creationDate +
                 ", addedDate=" + addedDate +
                 ", modificationDate=" + modificationDate +

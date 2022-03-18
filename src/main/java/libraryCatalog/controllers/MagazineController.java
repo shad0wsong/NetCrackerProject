@@ -2,7 +2,9 @@ package libraryCatalog.controllers;
 
 import libraryCatalog.businessLogic.MagazineBusinessLogic;
 import libraryCatalog.businessLogicInterfaces.MagazineBusinessLogicInterface;
+import libraryCatalog.models.Location;
 import libraryCatalog.models.Magazine;
+import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import libraryCatalog.repoInterfaces.MagazineManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,8 @@ public class MagazineController {
     MagazineBusinessLogicInterface magazineBusinessLogicInterface;
     @Autowired
     MagazineManagerInterface magazineManagerInterface;
+    @Autowired
+    LocationManagerInterface locationManagerInterface;
 
     @GetMapping("/magazine")
     public String allMagazines( Model model) {
@@ -53,7 +57,9 @@ public class MagazineController {
         Date pubDate= format.parse(publicationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        Magazine magazine = new Magazine(name,location,pubDate,addDate,modDate);
+        Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        Location locationObj=locationOptional.get();
+        Magazine magazine = new Magazine(name,locationObj,pubDate,addDate,modDate);
         magazineBusinessLogicInterface.createMagazine(magazine);
         return "magazine/mag-done";
     }
@@ -75,9 +81,11 @@ public class MagazineController {
         Date pubDate= format.parse(publicationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
+        Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        Location locationObj=locationOptional.get();
         Magazine magazine = magazineManagerInterface.findById(id).orElseThrow();
         magazine.setName(name);
-        magazine.setLocation(location);
+        magazine.setLocation(locationObj);
         magazine.setPublicationDate(pubDate);
         magazine.setAddedDate(addDate);
         magazine.setModificationDate(modDate);

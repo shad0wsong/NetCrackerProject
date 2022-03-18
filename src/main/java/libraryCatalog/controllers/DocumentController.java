@@ -3,7 +3,9 @@ package libraryCatalog.controllers;
 import libraryCatalog.businessLogic.DocumentBusinessLogic;
 import libraryCatalog.businessLogicInterfaces.DocumentBusinessLogicInterface;
 import libraryCatalog.models.Document;
+import libraryCatalog.models.Location;
 import libraryCatalog.repoInterfaces.DocumentManagerInterface;
+import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,8 @@ public class DocumentController {
     DocumentBusinessLogicInterface documentBusinessLogicInterface;
     @Autowired
     DocumentManagerInterface documentManagerInterface;
+    @Autowired
+    LocationManagerInterface locationManagerInterface;
     @GetMapping("/document")
     public String allDocs( Model model) {
         Iterable<Document> docs= documentManagerInterface.findAll();
@@ -52,7 +56,9 @@ public class DocumentController {
         Date creatDate= format.parse(creationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        Document document = new Document(name,documentNumber,location,creatDate,addDate,modDate);
+        Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        Location locationObj=locationOptional.get();
+        Document document = new Document(name,documentNumber,locationObj,creatDate,addDate,modDate);
         documentBusinessLogicInterface.createDoc(document);
         return "document/doc-done";
     }
@@ -78,10 +84,12 @@ public class DocumentController {
         Date creatDate= format.parse(creationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
+        Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        Location locationObj=locationOptional.get();
         Document document = documentManagerInterface.findById(id).orElseThrow();
         document.setName(name);
         document.setDocumentNumber(documentNumber);
-        document.setLocation(location);
+        document.setLocation(locationObj);
         document.setCreationDate(creatDate);
         document.setAddedDate(addDate);
         document.setModificationDate(modDate);

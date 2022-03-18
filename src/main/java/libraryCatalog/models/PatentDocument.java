@@ -23,9 +23,9 @@ public class PatentDocument {
     @Type(type = "org.hibernate.type.TextType")
     private String author;
 
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String location;
+    @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @JoinColumn (name="locationid")
+    private Location patentDocLocation;
 
     @Temporal(TemporalType.DATE)
     private Date addedDate;
@@ -36,11 +36,11 @@ public class PatentDocument {
 
     }
 
-    public PatentDocument(String name, String patentNumber, String author, String location, Date addedDate, Date modificationDate) {
+    public PatentDocument(String name, String patentNumber, String author, Location location, Date addedDate, Date modificationDate) {
         this.name = name;
         this.patentNumber = patentNumber;
         this.author = author;
-        this.location = location;
+        this.patentDocLocation = location;
         this.addedDate = addedDate;
         this.modificationDate = modificationDate;
     }
@@ -77,12 +77,12 @@ public class PatentDocument {
         this.author = author;
     }
 
-    public String getLocation() {
-        return location;
+    public Location getLocation() {
+        return patentDocLocation;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocation(Location location) {
+        this.patentDocLocation = location;
     }
 
     public Date getAddedDate() {
@@ -107,7 +107,7 @@ public class PatentDocument {
                 ", name='" + name + '\'' +
                 ", patentNumber='" + patentNumber + '\'' +
                 ", author='" + author + '\'' +
-                ", location='" + location + '\'' +
+                ", location='" + patentDocLocation + '\'' +
                 ", addedDate=" + addedDate +
                 ", modificationDate=" + modificationDate +
                 '}';

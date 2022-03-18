@@ -13,7 +13,12 @@
     <div th:each="el :${magazine}">
         <form method="post">
             <input type="text" th:value="${el.name}"  name ="name" placeholder="Enter name" class="form-control"><br>
-            <input type="text" th:value="${el.location}"  name ="location" placeholder="Enter location" class="form-control"><br>
+            <input name="location" list="library" placeholder="Enter location" class="form-control" />
+            <datalist id="library">
+                <option value="Саратовская городская библиотека" />
+                <option value="Юношеская библиотека" />
+                <option value="Библиотека Культуры" />
+            </datalist>
             Enter Creation Date
             <input type="date" th:value="${el.publicationDate}"  name="publicationDate"  class="form-control"><br>
             Enter Modification Date

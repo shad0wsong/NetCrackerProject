@@ -14,9 +14,9 @@ public class Magazine {
     @Type(type = "org.hibernate.type.TextType")
     private String name;
 
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String location;
+    @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @JoinColumn (name="locationid")
+    private Location magazineLocation;
 
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
@@ -31,9 +31,9 @@ public class Magazine {
 
     }
 
-    public Magazine(String name, String location, Date publicationDate, Date addedDate, Date modificationDate) {
+    public Magazine(String name, Location location, Date publicationDate, Date addedDate, Date modificationDate) {
         this.name = name;
-        this.location = location;
+        this.magazineLocation = location;
         this.publicationDate = publicationDate;
         this.addedDate = addedDate;
         this.modificationDate = modificationDate;
@@ -55,12 +55,12 @@ public class Magazine {
         this.name = name;
     }
 
-    public String getLocation() {
-        return location;
+    public Location getLocation() {
+        return magazineLocation;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocation(Location location) {
+        this.magazineLocation = location;
     }
 
     public Date getPublicationDate() {
@@ -91,7 +91,7 @@ public class Magazine {
         return "Magazine{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", location='" + location + '\'' +
+                ", location='" + magazineLocation + '\'' +
                 ", publicationDate=" + publicationDate +
                 ", addedDate=" + addedDate +
                 ", modificationDate=" + modificationDate +

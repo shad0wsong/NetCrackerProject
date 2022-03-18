@@ -13,7 +13,12 @@
     <h1>Add Magazine information</h1>
     <form action="/magazine/add" method="post">
         <input type="text" name ="name" placeholder="Enter a name" class="form-control"><br>
-        <input type="text" name ="location" placeholder="Enter location" class="form-control"><br>
+        <input name="location" list="library" placeholder="Enter location" class="form-control" />
+        <datalist id="library">
+            <option value="Саратовская городская библиотека" />
+            <option value="Юношеская библиотека" />
+            <option value="Библиотека Культуры" />
+        </datalist>
         Enter Publication Date
         <input type="date"  name="publicationDate"  class="form-control"><br>
         Enter Modification Date

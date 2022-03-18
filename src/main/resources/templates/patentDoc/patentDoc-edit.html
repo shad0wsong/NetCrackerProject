@@ -15,7 +15,12 @@
             <input type="text" th:value="${el.name}"  name ="name" placeholder="Enter name" class="form-control"><br>
             <input type="text" th:value="${el.author}"  name ="author" placeholder="Enter author" class="form-control"><br>
             <input type="text" th:value="${el.patentNumber}"  name ="patentNumber" placeholder="Enter Patent Number" class="form-control"><br>
-            <input type="text" th:value="${el.location}"  name ="location" placeholder="Enter location" class="form-control"><br>
+            <input type="text" th:value="${el.location}" name="location" list="library" placeholder="Enter location" class="form-control" />
+            <datalist id="library">
+                <option value="Саратовская городская библиотека" />
+                <option value="Юношеская библиотека" />
+                <option value="Библиотека Культуры" />
+            </datalist>
             Enter Modification Date
             <input type="date" th:value="${el.modificationDate}"  name="modificationDate"  class="form-control"><br>
             Enter Added to libraryCatalog Date
