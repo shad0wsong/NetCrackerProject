@@ -54,3 +54,5 @@ Added Location class and relation with Book</br>
 ![mR0NAR_sYVo](https://user-images.githubusercontent.com/101453514/159001360-58c40eec-bc4b-4c8d-8fdb-e2a773594ec2.jpg)
 </br>
 ![u_cv125oxAk](https://user-images.githubusercontent.com/101453514/159001550-0e00f9a0-f64e-45ea-bea2-f7a517ad83d1.jpg)
+<h1>Version 1.9</h1>
+Added  relation Location with other sections</br>
