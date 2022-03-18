@@ -48,7 +48,8 @@ Added  extra business layer.</br>
 All sections now also storage as JSON.Also added intefaces for business layer</br>
 <h1>Version 1.8</h1>
 Added Location class and relation with Book</br>
-![pyXmu3PY9r4](https:/![u_cv125oxAk](https://user-images.githubusercontent.com/101453514/159001336-1a782dab-2a18-4fbb-af75-875c3c02b529.jpg)
+![pyXmu3PY9r4](https://user-images.githubusercontent.com/101453514/159001719-a5bd5e4b-6413-44f3-8225-fef1cb41305e.jpg)
+
 </br>
 ![mR0NAR_sYVo](https://user-images.githubusercontent.com/101453514/159001360-58c40eec-bc4b-4c8d-8fdb-e2a773594ec2.jpg)
 </br>
