@@ -1,11 +1,15 @@
 package libraryCatalog.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@jsonID")
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,15 +24,19 @@ public class Location {
     private String libraryNumber;
 
     @OneToMany (mappedBy="location")
+    @JsonManagedReference
     private List<Book> books;
 
     @OneToMany (mappedBy="docLocation")
+    @JsonManagedReference
     private List<Document> documents;
 
     @OneToMany (mappedBy="patentDocLocation")
+    @JsonManagedReference
     private List<PatentDocument> patentDocuments;
 
     @OneToMany (mappedBy="magazineLocation")
+    @JsonManagedReference
     private List<Magazine> magazines;
 
     Location(){
@@ -62,6 +70,38 @@ public class Location {
 
     public void setLibraryNumber(String libraryNumber) {
         this.libraryNumber = libraryNumber;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
+    }
+
+    public List<PatentDocument> getPatentDocuments() {
+        return patentDocuments;
+    }
+
+    public void setPatentDocuments(List<PatentDocument> patentDocuments) {
+        this.patentDocuments = patentDocuments;
+    }
+
+    public List<Magazine> getMagazines() {
+        return magazines;
+    }
+
+    public void setMagazines(List<Magazine> magazines) {
+        this.magazines = magazines;
     }
 
     @Override

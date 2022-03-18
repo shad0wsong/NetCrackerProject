@@ -1,5 +1,6 @@
 package libraryCatalog.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -19,12 +20,14 @@ public class PatentDocument {
     @Type(type = "org.hibernate.type.TextType")
     private String patentNumber;
 
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String author;
+    @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @JoinColumn (name="authorid")
+    @JsonBackReference
+    private Author patentDocAuthor;
 
     @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinColumn (name="locationid")
+    @JsonBackReference
     private Location patentDocLocation;
 
     @Temporal(TemporalType.DATE)
@@ -36,10 +39,10 @@ public class PatentDocument {
 
     }
 
-    public PatentDocument(String name, String patentNumber, String author, Location location, Date addedDate, Date modificationDate) {
+    public PatentDocument(String name, String patentNumber, Author author, Location location, Date addedDate, Date modificationDate) {
         this.name = name;
         this.patentNumber = patentNumber;
-        this.author = author;
+        this.patentDocAuthor = author;
         this.patentDocLocation = location;
         this.addedDate = addedDate;
         this.modificationDate = modificationDate;
@@ -69,12 +72,12 @@ public class PatentDocument {
         this.patentNumber = patentNumber;
     }
 
-    public String getAuthor() {
-        return author;
+    public Author getAuthor() {
+        return patentDocAuthor;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthor(Author author) {
+        this.patentDocAuthor = author;
     }
 
     public Location getLocation() {
@@ -106,7 +109,7 @@ public class PatentDocument {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", patentNumber='" + patentNumber + '\'' +
-                ", author='" + author + '\'' +
+                ", author='" + patentDocAuthor + '\'' +
                 ", location='" + patentDocLocation + '\'' +
                 ", addedDate=" + addedDate +
                 ", modificationDate=" + modificationDate +

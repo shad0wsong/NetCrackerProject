@@ -18,8 +18,25 @@
     <h1>Add book information</h1>
     <form action="/book/add" method="post">
         <input type="text" name ="name" placeholder="Enter a name" class="form-control"><br>
-        <input type="text" name ="author" placeholder="Enter an author" class="form-control"><br>
+        <input name="author" list="author" placeholder="Enter author" class="form-control" />
+        <datalist id="author">
+            <option value="Толстой Лев" />
+            <option value="Толкин Джон" />
+            <option value="Маршак Самуил" />
+            <option value="Успенский Эдуард" />
+            <option value="Шелдон Сидни" />
+            <option value="Артур Конан Дойл" />
+            <option value="Агата Кристи" />
+            <option value="Оскар Уайльд" />
+            <option value="Чарльз Дикенс" />
+            <option value="Марк Твен" />
+            <option value="Эдгар Алан ПО" />
+            <option value="Фёдор Достоевский" />
+            <option value="Антон Чехов" />
+        </datalist>
+        </br>
         <input type="text" name ="ISBN" placeholder="Enter an ISBN" class="form-control"><br>
+
         <input name="location" list="library" placeholder="Enter location" class="form-control" />
         <datalist id="library">
             <option value="Саратовская городская библиотека" />

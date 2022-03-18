@@ -58,6 +58,9 @@ public class MagazineController {
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        if(!locationOptional.isPresent()){
+            return "redirect:/error";
+        }
         Location locationObj=locationOptional.get();
         Magazine magazine = new Magazine(name,locationObj,pubDate,addDate,modDate);
         magazineBusinessLogicInterface.createMagazine(magazine);
@@ -82,6 +85,9 @@ public class MagazineController {
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        if(!locationOptional.isPresent()){
+            return "redirect:/error";
+        }
         Location locationObj=locationOptional.get();
         Magazine magazine = magazineManagerInterface.findById(id).orElseThrow();
         magazine.setName(name);

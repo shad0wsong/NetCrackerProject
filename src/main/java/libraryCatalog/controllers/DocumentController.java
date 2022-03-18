@@ -57,6 +57,9 @@ public class DocumentController {
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        if(!locationOptional.isPresent()){
+            return "redirect:/error";
+        }
         Location locationObj=locationOptional.get();
         Document document = new Document(name,documentNumber,locationObj,creatDate,addDate,modDate);
         documentBusinessLogicInterface.createDoc(document);
@@ -85,6 +88,9 @@ public class DocumentController {
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        if(!locationOptional.isPresent()){
+            return "redirect:/error";
+        }
         Location locationObj=locationOptional.get();
         Document document = documentManagerInterface.findById(id).orElseThrow();
         document.setName(name);

@@ -13,7 +13,23 @@
     <div th:each="el :${patDoc}">
         <form method="post">
             <input type="text" th:value="${el.name}"  name ="name" placeholder="Enter name" class="form-control"><br>
-            <input type="text" th:value="${el.author}"  name ="author" placeholder="Enter author" class="form-control"><br>
+            <input type="text" th:value="${el.author}" name="author" list="author" placeholder="Enter author" class="form-control" />
+            <datalist id="author">
+                <option value="Толстой Лев" />
+                <option value="Толкин Джон" />
+                <option value="Маршак Самуил" />
+                <option value="Успенский Эдуард" />
+                <option value="Шелдон Сидни" />
+                <option value="Артур Конан Дойл" />
+                <option value="Агата Кристи" />
+                <option value="Оскар Уайльд" />
+                <option value="Чарльз Дикенс" />
+                <option value="Марк Твен" />
+                <option value="Эдгар Алан ПО" />
+                <option value="Фёдор Достоевский" />
+                <option value="Антон Чехов" />
+            </datalist>
+            </br>
             <input type="text" th:value="${el.patentNumber}"  name ="patentNumber" placeholder="Enter Patent Number" class="form-control"><br>
             <input type="text" th:value="${el.location}" name="location" list="library" placeholder="Enter location" class="form-control" />
             <datalist id="library">

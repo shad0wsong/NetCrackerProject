@@ -2,8 +2,11 @@ package libraryCatalog.controllers;
 
 import libraryCatalog.businessLogic.PatentDocumentBusinessLogic;
 import libraryCatalog.businessLogicInterfaces.PatentDocumentBusinessLogicInterface;
+import libraryCatalog.models.Author;
+import libraryCatalog.models.Book;
 import libraryCatalog.models.Location;
 import libraryCatalog.models.PatentDocument;
+import libraryCatalog.repoInterfaces.AuthorManagerInterface;
 import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import libraryCatalog.repoInterfaces.PatentDocumentManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ public class PatentDocumentController {
     PatentDocumentManagerInterface patentDocumentManagerInterface;
     @Autowired
     LocationManagerInterface locationManagerInterface;
+    @Autowired
+    AuthorManagerInterface authorManagerInterface;
     @GetMapping("/patentDoc")
     public String allPatentDoc( Model model) {
         Iterable<PatentDocument> patDocs= patentDocumentManagerInterface.findAll();
@@ -57,8 +62,16 @@ public class PatentDocumentController {
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        if(!locationOptional.isPresent()){
+            return "redirect:/error";
+        }
         Location locationObj=locationOptional.get();
-        PatentDocument patentDocument = new PatentDocument(name,patentNumber,author,locationObj,addDate,modDate);
+        Optional<Author> authorOptional=authorManagerInterface.getByName(author);
+        if(!authorOptional.isPresent()){
+            return "redirect:/error";
+        }
+        Author authorObj=authorOptional.get();
+        PatentDocument patentDocument = new PatentDocument(name,patentNumber,authorObj,locationObj,addDate,modDate);
         patentDocumentBusinessLogicInterface.createPatDoc(patentDocument);
         return "patentDoc/patentDoc-done";
     }
@@ -80,10 +93,18 @@ public class PatentDocumentController {
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        if(!locationOptional.isPresent()){
+            return "redirect:/error";
+        }
         Location locationObj=locationOptional.get();
+        Optional<Author> authorOptional=authorManagerInterface.getByName(author);
+        if(!authorOptional.isPresent()){
+            return "redirect:/error";
+        }
+        Author authorObj=authorOptional.get();
         PatentDocument patentDocument = patentDocumentManagerInterface.findById(id).orElseThrow();
         patentDocument.setName(name);
-        patentDocument.setAuthor(author);
+        patentDocument.setAuthor(authorObj);
         patentDocument.setLocation(locationObj);
         patentDocument.setPatentNumber(patentNumber);
         patentDocument.setAddedDate(addDate);

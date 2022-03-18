@@ -1,10 +1,14 @@
 package libraryCatalog.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Magazine {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,6 +20,7 @@ public class Magazine {
 
     @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinColumn (name="locationid")
+    @JsonBackReference
     private Location magazineLocation;
 
     @Temporal(TemporalType.DATE)

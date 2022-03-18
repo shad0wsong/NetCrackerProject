@@ -1,5 +1,8 @@
 package libraryCatalog.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -7,6 +10,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+
 public class Book {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -21,12 +25,14 @@ public class Book {
     private String ISBN;
 
 
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String author;
+    @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.LAZY)
+    @JoinColumn (name="authorid")
+    @JsonBackReference
+    private Author bookAuthor;
 
-    @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.LAZY)
     @JoinColumn (name="locationid")
+    @JsonBackReference
     private Location location;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -44,10 +50,10 @@ public class Book {
 
     }
 
-    public Book(String name, String ISBN, String author, Location location, Date publicationDate, Date addedDate, Date modificationDate) {
+    public Book(String name, String ISBN, Author author, Location location, Date publicationDate, Date addedDate, Date modificationDate) {
         this.name = name;
         this.ISBN = ISBN;
-        this.author = author;
+        this.bookAuthor = author;
         this.location = location;
         this.publicationDate = publicationDate;
         this.addedDate = addedDate;
@@ -78,12 +84,12 @@ public class Book {
         this.ISBN = ISBN;
     }
 
-    public String getAuthor() {
-        return author;
+    public Author getAuthor() {
+        return bookAuthor;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthor(Author author) {
+        this.bookAuthor = author;
     }
 
     public Location getLocation() {
@@ -123,7 +129,7 @@ public class Book {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", ISBN='" + ISBN + '\'' +
-                ", author='" + author + '\'' +
+                ", author='" + bookAuthor + '\'' +
                 ", location='" + location + '\'' +
                 ", publicationDate=" + publicationDate +
                 ", addedDate=" + addedDate +

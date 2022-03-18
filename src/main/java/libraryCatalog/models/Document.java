@@ -1,5 +1,6 @@
 package libraryCatalog.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Document {
 
     @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinColumn (name="locationid")
+    @JsonBackReference
     private Location docLocation;
 
     @Temporal(TemporalType.DATE)

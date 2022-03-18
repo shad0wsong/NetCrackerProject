@@ -2,8 +2,10 @@ package libraryCatalog.controllers;
 
 import libraryCatalog.businessLogic.BookBusinessLogic;
 import libraryCatalog.businessLogicInterfaces.BookBusinessLogicInterface;
+import libraryCatalog.models.Author;
 import libraryCatalog.models.Book;
 import libraryCatalog.models.Location;
+import libraryCatalog.repoInterfaces.AuthorManagerInterface;
 import libraryCatalog.repoInterfaces.BookManagerInterface;
 import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class BookController {
     BookManagerInterface bookManagerInterface;
     @Autowired
     LocationManagerInterface locationManagerInterface;
+    @Autowired
+    AuthorManagerInterface authorManagerInterface;
     @GetMapping("/book")
     public String allBooks( Model model) {
         Iterable<Book> books= bookManagerInterface.findAll();
@@ -57,8 +61,16 @@ public class BookController {
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        if(!locationOptional.isPresent()){
+            return "redirect:/error";
+        }
         Location locationObj=locationOptional.get();
-        Book book = new Book(name,ISBN,author, locationObj,pubDate,addDate,modDate);//CHANGE
+        Optional<Author> authorOptional=authorManagerInterface.getByName(author);
+        if(!authorOptional.isPresent()){
+            return "redirect:/error";
+        }
+        Author authorObj=authorOptional.get();
+        Book book = new Book(name,ISBN,authorObj, locationObj,pubDate,addDate,modDate);//CHANGE
         bookBusinessLogicInterface.createBook(book);
         return "book/book-done";
     }
@@ -82,11 +94,19 @@ public class BookController {
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        if(!locationOptional.isPresent()){
+            return "redirect:/error";
+        }
         Location locationObj=locationOptional.get();
+        Optional<Author> authorOptional=authorManagerInterface.getByName(author);
+        if(!authorOptional.isPresent()){
+            return "redirect:/error";
+        }
+        Author authorObj=authorOptional.get();
         Book book = bookManagerInterface.findById(id).orElseThrow();
         book.setName(name);
-        book.setAuthor(author);
-        book.setLocation(locationObj); //CHANGE
+        book.setAuthor(authorObj);
+        book.setLocation(locationObj);
         book.setISBN(ISBN);
         book.setPublicationDate(pubDate);
         book.setAddedDate(addDate);
