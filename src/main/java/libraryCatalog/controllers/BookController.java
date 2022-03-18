@@ -3,7 +3,9 @@ package libraryCatalog.controllers;
 import libraryCatalog.businessLogic.BookBusinessLogic;
 import libraryCatalog.businessLogicInterfaces.BookBusinessLogicInterface;
 import libraryCatalog.models.Book;
+import libraryCatalog.models.Location;
 import libraryCatalog.repoInterfaces.BookManagerInterface;
+import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,8 @@ public class BookController {
     BookBusinessLogicInterface bookBusinessLogicInterface;
     @Autowired
     BookManagerInterface bookManagerInterface;
+    @Autowired
+    LocationManagerInterface locationManagerInterface;
     @GetMapping("/book")
     public String allBooks( Model model) {
         Iterable<Book> books= bookManagerInterface.findAll();
@@ -52,7 +56,9 @@ public class BookController {
         Date pubDate= format.parse(publicationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
-        Book book = new Book(name,ISBN,author,location,pubDate,addDate,modDate);
+        Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        Location locationObj=locationOptional.get();
+        Book book = new Book(name,ISBN,author, locationObj,pubDate,addDate,modDate);//CHANGE
         bookBusinessLogicInterface.createBook(book);
         return "book/book-done";
     }
@@ -66,19 +72,21 @@ public class BookController {
         return "book/book-edit";
     }
     @PostMapping("/book/{id}/edit")
-    public String bookEdit(@PathVariable(value="id") Long id,@RequestParam String name, @RequestParam String author,
-                               @RequestParam String location,@RequestParam String ISBN,
-                               @RequestParam String publicationDate, @RequestParam String modificationDate,
-                               @RequestParam String addedDate, Model model) throws ParseException, IOException {
+    public String bookEdit(@PathVariable(value="id") Long id, @RequestParam String name, @RequestParam String author,
+                           @RequestParam String location, @RequestParam String ISBN,
+                           @RequestParam String publicationDate, @RequestParam String modificationDate,
+                           @RequestParam String addedDate, Model model) throws ParseException, IOException {
         SimpleDateFormat format = new SimpleDateFormat();
         format.applyPattern("yyyy-MM-dd");
         Date pubDate= format.parse(publicationDate);
         Date addDate= format.parse(addedDate);
         Date modDate= format.parse(modificationDate);
+        Optional<Location> locationOptional=locationManagerInterface.getByName(location);
+        Location locationObj=locationOptional.get();
         Book book = bookManagerInterface.findById(id).orElseThrow();
         book.setName(name);
         book.setAuthor(author);
-        book.setLocation(location);
+        book.setLocation(locationObj); //CHANGE
         book.setISBN(ISBN);
         book.setPublicationDate(pubDate);
         book.setAddedDate(addDate);

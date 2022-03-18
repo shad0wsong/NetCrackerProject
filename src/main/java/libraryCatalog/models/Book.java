@@ -25,9 +25,9 @@ public class Book {
     @Type(type = "org.hibernate.type.TextType")
     private String author;
 
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String location;
+    @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @JoinColumn (name="locationid")
+    private Location location;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
@@ -44,7 +44,7 @@ public class Book {
 
     }
 
-    public Book(String name, String ISBN, String author, String location, Date publicationDate, Date addedDate, Date modificationDate) {
+    public Book(String name, String ISBN, String author, Location location, Date publicationDate, Date addedDate, Date modificationDate) {
         this.name = name;
         this.ISBN = ISBN;
         this.author = author;
@@ -86,11 +86,11 @@ public class Book {
         this.author = author;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
