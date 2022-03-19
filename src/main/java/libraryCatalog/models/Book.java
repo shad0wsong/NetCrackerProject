@@ -27,12 +27,12 @@ public class Book {
 
     @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.LAZY)
     @JoinColumn (name="authorid")
-    @JsonBackReference
+
     private Author bookAuthor;
 
     @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.LAZY)
     @JoinColumn (name="locationid")
-    @JsonBackReference
+
     private Location location;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")

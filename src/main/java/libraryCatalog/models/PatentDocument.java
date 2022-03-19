@@ -22,12 +22,10 @@ public class PatentDocument {
 
     @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinColumn (name="authorid")
-    @JsonBackReference
     private Author patentDocAuthor;
 
     @ManyToOne (optional=false, cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinColumn (name="locationid")
-    @JsonBackReference
     private Location patentDocLocation;
 
     @Temporal(TemporalType.DATE)

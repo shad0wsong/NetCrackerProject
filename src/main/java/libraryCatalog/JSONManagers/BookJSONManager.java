@@ -2,6 +2,7 @@ package libraryCatalog.JSONManagers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import libraryCatalog.JSONInterfaces.BookJSONInterface;
 import libraryCatalog.JSONInterfaces.DocJSONInterface;
 import libraryCatalog.models.Book;
@@ -17,6 +18,7 @@ public class BookJSONManager implements BookJSONInterface {
     public void BookToJSONandFile(Book book) throws IOException {
         FileWriter writer = new FileWriter("src/main/resources/BookJSONFormat/"+book.getId()+".json", false);
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         String jsonFormat=objectMapper.writeValueAsString(book);
         writer.write(jsonFormat);
         writer.flush();
@@ -29,6 +31,7 @@ public class BookJSONManager implements BookJSONInterface {
     }
     public Book getDocJSONFromFile(Long id) throws FileNotFoundException, JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         FileReader fileReader = new FileReader("src/main/resources/BookJSONFormat/"+id+".json");
         Scanner scanner = new Scanner(fileReader);
         String doc_str=scanner.nextLine();

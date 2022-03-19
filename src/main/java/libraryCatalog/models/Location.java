@@ -24,19 +24,19 @@ public class Location {
     private String libraryNumber;
 
     @OneToMany (mappedBy="location")
-    @JsonManagedReference
+
     private List<Book> books;
 
     @OneToMany (mappedBy="docLocation")
-    @JsonManagedReference
+
     private List<Document> documents;
 
     @OneToMany (mappedBy="patentDocLocation")
-    @JsonManagedReference
+
     private List<PatentDocument> patentDocuments;
 
     @OneToMany (mappedBy="magazineLocation")
-    @JsonManagedReference
+
     private List<Magazine> magazines;
 
     Location(){
@@ -106,8 +106,6 @@ public class Location {
 
     @Override
     public String toString() {
-        return
-                "Name:" + name +
-                ", Library Number:" + libraryNumber ;
+        return name;
     }
 }

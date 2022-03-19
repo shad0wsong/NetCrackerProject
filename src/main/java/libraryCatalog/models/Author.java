@@ -27,7 +27,7 @@ public class Author {
     private List<PatentDocument> patentDocuments;
 
     @OneToMany (mappedBy="bookAuthor")
-    @JsonManagedReference
+
     private List<Book> books;
 
     public String getName() {
