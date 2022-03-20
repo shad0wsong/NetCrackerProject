@@ -58,3 +58,9 @@ Added Location class and relation with Book</br>
 Added  relation Location with other sections</br>
 <h1>Version 2.0</h1>
 Added  relation new Author class with other sections</br>
+<h1>Version 2.1</h1>
+Added  parameter search for Books by fields: name author location  ISBN publication date modification date added date </br>
+Example with author:</br>
+![5r9ubVrSJJo](https://user-images.githubusercontent.com/101453514/159162490-562fdcc5-654c-4472-9a52-9be14e54a20c.jpg)
+![HBFSwe6S5Wk](https://user-images.githubusercontent.com/101453514/159162499-864fff31-e6a4-417f-a435-c69fb1dfafd5.jpg)
+
