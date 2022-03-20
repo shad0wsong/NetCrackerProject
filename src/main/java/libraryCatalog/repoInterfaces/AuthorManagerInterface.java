@@ -12,4 +12,7 @@ public interface AuthorManagerInterface extends CrudRepository<Author,Long> {
     @Query("SELECT a FROM Author a WHERE a.name=:name")
     Optional<Author> getByName(@Param("name") String name);
 
+    @Query("SELECT a FROM Author a WHERE a.name=:name")
+    Author getByNameORNULL(@Param("name") String name);
+
 }

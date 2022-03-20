@@ -14,5 +14,5 @@ public interface BookBusinessLogicInterface {
     void editBook(Book book,Model model) throws IOException;
     void deleteBook(Book book);
     boolean bookExistByID(Long id);
-    void searchBookByName(Iterable<Book> books,Model model);
+    void searchBook(Iterable<Book> books,Model model);
 }

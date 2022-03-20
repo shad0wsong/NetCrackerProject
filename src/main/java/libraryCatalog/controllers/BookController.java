@@ -129,10 +129,39 @@ public class BookController {
         return "book/book-delete";
     }
 
-    @PostMapping("/book/search")
-    public String bookSearch(@RequestParam String name, Model model){
-        Iterable<Book> books= bookManagerInterface.getByName(name);
-        bookBusinessLogicInterface.searchBookByName(books,model);
+    @GetMapping("book/parametrSearch")
+    public String bookParametrSearchPage(Model model){
+        return "book/book-parametrSearch";
+    }
+    @PostMapping("book/parametrSearch")
+    public String bookParametrSearch(@RequestParam String name, @RequestParam String author,
+                                    @RequestParam String location, @RequestParam String ISBN,
+                                    @RequestParam String publicationDate, @RequestParam String modificationDate,
+                                    @RequestParam String addedDate, Model model) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("yyyy-MM-dd");
+        Date pubDate;
+        Date modDate;
+        Date addDate;
+        if(ISBN.equals("")) ISBN=null;
+
+        if(!publicationDate.equals("")){
+             pubDate= format.parse(publicationDate);
+        }
+        else pubDate =null;
+
+        if(!modificationDate.equals("")){
+             modDate= format.parse(modificationDate);
+        }
+        else modDate=null;
+        if(!addedDate.equals("")){
+             addDate= format.parse(addedDate);
+        }
+        else addDate=null;
+        Location locationObj=locationManagerInterface.getByNameORNULL(location);
+        Author authorObj=authorManagerInterface.getByNameORNULL(author);
+        Iterable<Book> books = bookManagerInterface.parametrSearch(name,authorObj,locationObj,ISBN,pubDate,modDate,addDate);
+        bookBusinessLogicInterface.searchBook(books,model);
         return "book/book-search";
     }
 

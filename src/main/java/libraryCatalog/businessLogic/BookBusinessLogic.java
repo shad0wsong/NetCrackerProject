@@ -51,7 +51,7 @@ public class BookBusinessLogic implements BookBusinessLogicInterface {
         }
         return false;
     }
-    public void searchBookByName(Iterable<Book> books,Model model){
+    public void searchBook(Iterable<Book> books,Model model){
         model.addAttribute("book",books);
     }
 
