@@ -8,7 +8,6 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.Date;
 @Entity
-@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Magazine {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -126,10 +126,33 @@ public class PatentDocumentController {
     public String patentDocDeleted(Model model){
         return "patentDoc/patentDoc-delete";
     }
-    @PostMapping("/patentDoc/search")
-    public String patentDocSearch(@RequestParam String name, Model model){
-        Iterable<PatentDocument> documents= patentDocumentManagerInterface.getByName(name);
-        patentDocumentBusinessLogicInterface.searchPatDocByName(documents,model);
+
+    @GetMapping("patentDoc/parametrSearch")
+    public String patDocParametrSearchPage(Model model){
+        return "patentDoc/patentDoc-parametrSearch";
+    }
+    @PostMapping("patentDoc/parametrSearch")
+    public String patDocParametrSearch(@RequestParam String name, @RequestParam String author,
+                                     @RequestParam String location, @RequestParam String patentNumber, @RequestParam String modificationDate,
+                                     @RequestParam String addedDate, Model model) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("yyyy-MM-dd");
+        Date modDate;
+        Date addDate;
+        if(patentNumber.equals("")) patentNumber=null;
+
+        if(!modificationDate.equals("")){
+            modDate= format.parse(modificationDate);
+        }
+        else modDate=null;
+        if(!addedDate.equals("")){
+            addDate= format.parse(addedDate);
+        }
+        else addDate=null;
+        Location locationObj=locationManagerInterface.getByNameORNULL(location);
+        Author authorObj=authorManagerInterface.getByNameORNULL(author);
+        Iterable<PatentDocument> patDoc = patentDocumentManagerInterface.parametrSearch(name,authorObj,locationObj,patentNumber,modDate,addDate);
+        patentDocumentBusinessLogicInterface.searchPatDoc(patDoc,model);
         return "patentDoc/patentDoc-search";
     }
 }

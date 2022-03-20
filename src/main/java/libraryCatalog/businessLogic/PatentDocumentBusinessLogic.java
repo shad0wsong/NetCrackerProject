@@ -50,7 +50,7 @@ public class PatentDocumentBusinessLogic implements PatentDocumentBusinessLogicI
         }
         return false;
     }
-    public void searchPatDocByName(Iterable<PatentDocument> documents,Model model){
+    public void searchPatDoc(Iterable<PatentDocument> documents,Model model){
         model.addAttribute("patDoc",documents);
     }
 }

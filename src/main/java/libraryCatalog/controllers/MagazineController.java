@@ -2,6 +2,7 @@ package libraryCatalog.controllers;
 
 import libraryCatalog.businessLogic.MagazineBusinessLogic;
 import libraryCatalog.businessLogicInterfaces.MagazineBusinessLogicInterface;
+import libraryCatalog.models.Document;
 import libraryCatalog.models.Location;
 import libraryCatalog.models.Magazine;
 import libraryCatalog.repoInterfaces.LocationManagerInterface;
@@ -113,10 +114,36 @@ public class MagazineController {
         return "magazine/mag-delete";
     }
 
-    @PostMapping("/magazine/search")
-    public String magazineSearch(@RequestParam String name, Model model){
-        Iterable<Magazine> magazines= magazineManagerInterface.getByName(name);
-        magazineBusinessLogicInterface.searchMagazineByName(magazines, model);
+    @GetMapping("magazine/parametrSearch")
+    public String magParametrSearchPage(Model model){
+        return "magazine/mag-parametrSearch";
+    }
+    @PostMapping("magazine/parametrSearch")
+    public String magParametrSearch(@RequestParam String name,
+                                    @RequestParam String location,@RequestParam String publicationDate, @RequestParam String modificationDate,
+                                    @RequestParam String addedDate, Model model) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("yyyy-MM-dd");
+        Date pubDate;
+        Date modDate;
+        Date addDate;
+
+        if(!publicationDate.equals("")){
+            pubDate= format.parse(publicationDate);
+        }
+        else pubDate =null;
+
+        if(!modificationDate.equals("")){
+            modDate= format.parse(modificationDate);
+        }
+        else modDate=null;
+        if(!addedDate.equals("")){
+            addDate= format.parse(addedDate);
+        }
+        else addDate=null;
+        Location locationObj=locationManagerInterface.getByNameORNULL(location);
+        Iterable<Magazine> mag = magazineManagerInterface.parametrSearch(name,locationObj,pubDate,modDate,addDate);
+        magazineBusinessLogicInterface.searchMagazine(mag,model);
         return "magazine/mag-search";
     }
 }

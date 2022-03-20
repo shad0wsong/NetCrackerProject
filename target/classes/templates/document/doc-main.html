@@ -10,12 +10,11 @@
 
 </header>
 <div class="container mt-5">
-  <h1>Here you can add a document or find a document by name</h1>
+  <h1>Here you can add a document or find it by parameters</h1>
   <h1><a href="/document/add" class=" btn btn-warning">Add new document</a></h1>
 </div>
 <div class="container mt-5">
-  <form action="/document/search" method="post">
-    <input type="text" name ="name" placeholder="Enter document name" class="form-control"><br>
+  <form action="/document/parametrSearch" method="get">
     <button type="submit" class=" btn btn-success">Find Document</button><br>
   </form>
 </div>

@@ -53,7 +53,7 @@ public class MagazineBusinessLogic implements MagazineBusinessLogicInterface {
         }
         return false;
     }
-    public void searchMagazineByName(Iterable<Magazine> magazines,Model model){
+    public void searchMagazine(Iterable<Magazine> magazines,Model model){
         model.addAttribute("mag",magazines);
     }
 

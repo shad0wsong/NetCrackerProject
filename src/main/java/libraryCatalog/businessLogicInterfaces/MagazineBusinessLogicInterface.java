@@ -13,5 +13,5 @@ public interface MagazineBusinessLogicInterface {
     public void editMagazine(Magazine magazine) throws IOException;
     public void deleteMagazine(Magazine magazine);
     public boolean magazineExistByID(Long id);
-    public void searchMagazineByName(Iterable<Magazine> magazines,Model model);
+    public void searchMagazine(Iterable<Magazine> magazines,Model model);
 }

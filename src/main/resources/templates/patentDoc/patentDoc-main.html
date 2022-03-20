@@ -10,12 +10,11 @@
 
 </header>
 <div class="container mt-5">
-  <h1>Here you can add a patent document or find it by name</h1>
+  <h1>Here you can add a patent document or find it by parameters</h1>
   <h1><a href="/patentDoc/add" class=" btn btn-warning">Add new patent document</a></h1>
 </div>
 <div class="container mt-5">
-  <form action="/patentDoc/search" method="post">
-    <input type="text" name ="name" placeholder="Enter  Patent Document name" class="form-control"><br>
+  <form action="/patentDoc/parametrSearch" method="get">
     <button type="submit" class=" btn btn-success">Find Patent Document</button><br>
   </form>
 </div>

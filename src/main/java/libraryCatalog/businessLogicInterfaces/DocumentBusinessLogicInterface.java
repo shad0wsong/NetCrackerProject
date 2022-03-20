@@ -13,6 +13,6 @@ public interface DocumentBusinessLogicInterface {
     void editDoc(Document document) throws IOException;
     void deleteDoc(Document document);
     boolean docExistByID(Long id);
-    void searchDocByName(Iterable<Document> documents,Model model);
+    void searchDoc(Iterable<Document> documents,Model model);
 
 }

@@ -13,6 +13,6 @@ public interface PatentDocumentBusinessLogicInterface {
      void editPatDoc(PatentDocument patentDocument) throws IOException;
      void deletePatDoc(PatentDocument patentDocument);
     boolean patDocExistByID(Long id);
-    public void searchPatDocByName(Iterable<PatentDocument> documents,Model model);
+    public void searchPatDoc(Iterable<PatentDocument> documents,Model model);
 
 }

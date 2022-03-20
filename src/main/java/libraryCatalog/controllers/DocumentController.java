@@ -2,6 +2,8 @@ package libraryCatalog.controllers;
 
 import libraryCatalog.businessLogic.DocumentBusinessLogic;
 import libraryCatalog.businessLogicInterfaces.DocumentBusinessLogicInterface;
+import libraryCatalog.models.Author;
+import libraryCatalog.models.Book;
 import libraryCatalog.models.Document;
 import libraryCatalog.models.Location;
 import libraryCatalog.repoInterfaces.DocumentManagerInterface;
@@ -113,10 +115,38 @@ public class DocumentController {
         return "document/doc-delete";
     }
 
-    @PostMapping("/document/search")
-    public String docSearch(@RequestParam String name, Model model){
-        Iterable<Document> documents= documentManagerInterface.getByName(name);
-        documentBusinessLogicInterface.searchDocByName(documents, model);
+    @GetMapping("document/parametrSearch")
+    public String docParametrSearchPage(Model model){
+        return "document/doc-parametrSearch";
+    }
+    @PostMapping("document/parametrSearch")
+    public String docParametrSearch(@RequestParam String name, @RequestParam String documentNumber,
+                                     @RequestParam String location,
+                                     @RequestParam String creationDate, @RequestParam String modificationDate,
+                                     @RequestParam String addedDate, Model model) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("yyyy-MM-dd");
+        Date creatDate;
+        Date modDate;
+        Date addDate;
+        if(documentNumber.equals("")) documentNumber=null;
+
+        if(!creationDate.equals("")){
+            creatDate= format.parse(creationDate);
+        }
+        else creatDate =null;
+
+        if(!modificationDate.equals("")){
+            modDate= format.parse(modificationDate);
+        }
+        else modDate=null;
+        if(!addedDate.equals("")){
+            addDate= format.parse(addedDate);
+        }
+        else addDate=null;
+        Location locationObj=locationManagerInterface.getByNameORNULL(location);
+        Iterable<Document> doc = documentManagerInterface.parametrSearch(name,documentNumber,locationObj,creatDate,modDate,addDate);
+        documentBusinessLogicInterface.searchDoc(doc,model);
         return "document/doc-search";
     }
 }

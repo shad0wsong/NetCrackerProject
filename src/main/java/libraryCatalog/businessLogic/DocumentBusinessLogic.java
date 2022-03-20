@@ -57,7 +57,7 @@ public class DocumentBusinessLogic implements DocumentBusinessLogicInterface {
         }
         return false;
     }
-    public void searchDocByName(Iterable<Document> documents,Model model){
+    public void searchDoc(Iterable<Document> documents,Model model){
         model.addAttribute("doc",documents);
     }
 }
