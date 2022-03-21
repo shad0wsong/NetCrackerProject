@@ -65,4 +65,5 @@ Example with author:</br>
 ![HBFSwe6S5Wk](https://user-images.githubusercontent.com/101453514/159162499-864fff31-e6a4-417f-a435-c69fb1dfafd5.jpg)
 <h1>Version 2.2</h1>
 Added  parameter search for other sections </br>
-
+<h1>Version 2.3</h1>
+Added logger </br>
