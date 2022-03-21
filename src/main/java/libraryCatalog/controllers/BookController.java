@@ -1,6 +1,5 @@
 package libraryCatalog.controllers;
 
-import libraryCatalog.businessLogic.BookBusinessLogic;
 import libraryCatalog.businessLogicInterfaces.BookBusinessLogicInterface;
 import libraryCatalog.models.Author;
 import libraryCatalog.models.Book;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +23,7 @@ import java.util.Optional;
 
 @Controller
 public class BookController {
+    static Logger log = Logger.getLogger(BookController.class.getName());
     @Autowired
     BookBusinessLogicInterface bookBusinessLogicInterface;
     @Autowired
@@ -62,21 +62,25 @@ public class BookController {
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
         if(!locationOptional.isPresent()){
+            log.info("Book not found ");
             return "redirect:/error";
         }
         Location locationObj=locationOptional.get();
         Optional<Author> authorOptional=authorManagerInterface.getByName(author);
         if(!authorOptional.isPresent()){
+            log.info("Book not found ");
             return "redirect:/error";
         }
         Author authorObj=authorOptional.get();
         Book book = new Book(name,ISBN,authorObj, locationObj,pubDate,addDate,modDate);//CHANGE
         bookBusinessLogicInterface.createBook(book);
+        log.info("Book added");
         return "book/book-done";
     }
     @GetMapping("/book/{id}/edit")
     public String bookEditPage(@PathVariable(value="id") Long id, Model model) {
         if(!bookBusinessLogicInterface.bookExistByID(id)){
+            log.info("Book not found ");
             return "redirect:/error";
         }
         Optional<Book> book= bookManagerInterface.findById(id);
@@ -95,11 +99,13 @@ public class BookController {
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
         if(!locationOptional.isPresent()){
+            log.info("Book not found ");
             return "redirect:/error";
         }
         Location locationObj=locationOptional.get();
         Optional<Author> authorOptional=authorManagerInterface.getByName(author);
         if(!authorOptional.isPresent()){
+            log.info("Book not found ");
             return "redirect:/error";
         }
         Author authorObj=authorOptional.get();
@@ -112,6 +118,7 @@ public class BookController {
         book.setAddedDate(addDate);
         book.setModificationDate(modDate);
         bookBusinessLogicInterface.editBook(book,model);
+        log.info("Book updated ");
         return "redirect:/book-done";
     }
     @GetMapping("/book-done")
@@ -122,6 +129,7 @@ public class BookController {
     public String bookDelete(@PathVariable(value="id") Long id, Model model) {
         Book book = bookManagerInterface.findById(id).orElseThrow();
         bookBusinessLogicInterface.deleteBook(book);
+        log.info("Book deleted ");
         return "redirect:/book-delete";
     }
     @GetMapping("/book-delete")

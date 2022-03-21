@@ -1,7 +1,8 @@
 # Default ignored files
 /shelf/
 /workspace.xml
-/BookJSONFormat
-/DocJSONFormat
-/MagazineJSONFormat
-/PatentDocJSONFormat
+/src/main/resources/BookJSONFormat
+/src/main/resources/DocJSONFormat
+/src/main/resources/MagazineJSONFormat
+/src/main/resources/PatentDocJSONFormat
+*.log
