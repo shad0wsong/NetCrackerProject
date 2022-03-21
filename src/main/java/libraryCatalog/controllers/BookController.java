@@ -41,6 +41,7 @@ public class BookController {
     @GetMapping("/book/{id}")
     public String bookDetails(@PathVariable(value="id") Long id, Model model) {
         if(!bookBusinessLogicInterface.bookExistByID(id)){
+            log.error("Book not found ");
             return "redirect:/error";
         }
         Optional<Book> book= bookManagerInterface.findById(id);
@@ -62,13 +63,13 @@ public class BookController {
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
         if(!locationOptional.isPresent()){
-            log.info("Book not found ");
+            log.error("Book not found ");
             return "redirect:/error";
         }
         Location locationObj=locationOptional.get();
         Optional<Author> authorOptional=authorManagerInterface.getByName(author);
         if(!authorOptional.isPresent()){
-            log.info("Book not found ");
+            log.error("Book not found ");
             return "redirect:/error";
         }
         Author authorObj=authorOptional.get();
@@ -80,7 +81,7 @@ public class BookController {
     @GetMapping("/book/{id}/edit")
     public String bookEditPage(@PathVariable(value="id") Long id, Model model) {
         if(!bookBusinessLogicInterface.bookExistByID(id)){
-            log.info("Book not found ");
+            log.error("Book not found ");
             return "redirect:/error";
         }
         Optional<Book> book= bookManagerInterface.findById(id);
@@ -99,13 +100,13 @@ public class BookController {
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
         if(!locationOptional.isPresent()){
-            log.info("Book not found ");
+            log.error("Book not found ");
             return "redirect:/error";
         }
         Location locationObj=locationOptional.get();
         Optional<Author> authorOptional=authorManagerInterface.getByName(author);
         if(!authorOptional.isPresent()){
-            log.info("Book not found ");
+            log.error("Book not found ");
             return "redirect:/error";
         }
         Author authorObj=authorOptional.get();
@@ -129,7 +130,7 @@ public class BookController {
     public String bookDelete(@PathVariable(value="id") Long id, Model model) {
         Book book = bookManagerInterface.findById(id).orElseThrow();
         bookBusinessLogicInterface.deleteBook(book);
-        log.info("Book deleted ");
+        log.info("Book deleted");
         return "redirect:/book-delete";
     }
     @GetMapping("/book-delete")

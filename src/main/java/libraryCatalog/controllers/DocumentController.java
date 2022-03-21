@@ -8,6 +8,7 @@ import libraryCatalog.models.Document;
 import libraryCatalog.models.Location;
 import libraryCatalog.repoInterfaces.DocumentManagerInterface;
 import libraryCatalog.repoInterfaces.LocationManagerInterface;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @Controller
 public class DocumentController {
+    static Logger log = Logger.getLogger(DocumentController.class.getName());
     @Autowired
     DocumentBusinessLogicInterface documentBusinessLogicInterface;
     @Autowired
@@ -39,6 +41,7 @@ public class DocumentController {
     @GetMapping("/document/{id}")
     public String docDetails(@PathVariable(value="id") Long id, Model model) {
         if(!documentBusinessLogicInterface.docExistByID(id)){
+            log.error("Document not found ");
             return "redirect:/error";
         }
         Optional<Document> doc= documentManagerInterface.findById(id);
@@ -60,16 +63,19 @@ public class DocumentController {
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
         if(!locationOptional.isPresent()){
+            log.error("Document not found");
             return "redirect:/error";
         }
         Location locationObj=locationOptional.get();
         Document document = new Document(name,documentNumber,locationObj,creatDate,addDate,modDate);
         documentBusinessLogicInterface.createDoc(document);
+        log.info("Document added ");
         return "document/doc-done";
     }
     @GetMapping("/document/{id}/edit")
     public String docEditPage(@PathVariable(value="id") Long id, Model model) {
         if(!documentBusinessLogicInterface.docExistByID(id)){
+            log.error("Document not found ");
             return "redirect:/error";
         }
         Optional<Document> doc= documentManagerInterface.findById(id);
@@ -91,6 +97,7 @@ public class DocumentController {
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
         if(!locationOptional.isPresent()){
+            log.error("Document not found ");
             return "redirect:/error";
         }
         Location locationObj=locationOptional.get();
@@ -102,12 +109,14 @@ public class DocumentController {
         document.setAddedDate(addDate);
         document.setModificationDate(modDate);
         documentBusinessLogicInterface.editDoc(document);
+        log.info("Document updated ");
         return "redirect:/doc-done";
     }
     @PostMapping("/document/{id}/remove")
     public String docDelete(@PathVariable(value="id") Long id, Model model) {
         Document document = documentManagerInterface.findById(id).orElseThrow();
         documentBusinessLogicInterface.deleteDoc(document);
+        log.info("Document deleted ");
         return "redirect:/doc-delete";
     }
     @GetMapping("/doc-delete")

@@ -9,6 +9,7 @@ import libraryCatalog.models.PatentDocument;
 import libraryCatalog.repoInterfaces.AuthorManagerInterface;
 import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import libraryCatalog.repoInterfaces.PatentDocumentManagerInterface;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ import java.util.Optional;
 
 @Controller
 public class PatentDocumentController {
+    static Logger log = Logger.getLogger(PatentDocumentController.class.getName());
     @Autowired
     PatentDocumentBusinessLogicInterface patentDocumentBusinessLogicInterface;
     @Autowired
@@ -42,6 +44,7 @@ public class PatentDocumentController {
     @GetMapping("/patentDoc/{id}")
     public String patentDocDetails(@PathVariable(value="id") Long id, Model model) {
         if(!patentDocumentBusinessLogicInterface.patDocExistByID(id)){
+            log.error("PatentDocument not found ");
             return "redirect:/error";
         }
         Optional<PatentDocument> patentDocument= patentDocumentManagerInterface.findById(id);
@@ -63,16 +66,19 @@ public class PatentDocumentController {
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
         if(!locationOptional.isPresent()){
+            log.error("PatentDocument not found ");
             return "redirect:/error";
         }
         Location locationObj=locationOptional.get();
         Optional<Author> authorOptional=authorManagerInterface.getByName(author);
         if(!authorOptional.isPresent()){
+            log.error("PatentDocument not found ");
             return "redirect:/error";
         }
         Author authorObj=authorOptional.get();
         PatentDocument patentDocument = new PatentDocument(name,patentNumber,authorObj,locationObj,addDate,modDate);
         patentDocumentBusinessLogicInterface.createPatDoc(patentDocument);
+        log.info("PatentDocument added ");
         return "patentDoc/patentDoc-done";
     }
     @GetMapping("/patentDoc/{id}/edit")
@@ -110,6 +116,7 @@ public class PatentDocumentController {
         patentDocument.setAddedDate(addDate);
         patentDocument.setModificationDate(modDate);
         patentDocumentBusinessLogicInterface.editPatDoc(patentDocument);
+        log.info("PatentDocument updated ");
         return "redirect:/patentDoc-done";
     }
     @GetMapping("/patentDoc-done")
@@ -120,6 +127,7 @@ public class PatentDocumentController {
     public String patentDocDelete(@PathVariable(value="id") Long id, Model model) {
         PatentDocument patentDocument = patentDocumentManagerInterface.findById(id).orElseThrow();
         patentDocumentBusinessLogicInterface.deletePatDoc(patentDocument);
+        log.info("PatentDocument deleted ");
         return "redirect:/patentDoc-delete";
     }
     @GetMapping("/patentDoc-delete")

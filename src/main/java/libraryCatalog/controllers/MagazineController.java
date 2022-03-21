@@ -7,6 +7,7 @@ import libraryCatalog.models.Location;
 import libraryCatalog.models.Magazine;
 import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import libraryCatalog.repoInterfaces.MagazineManagerInterface;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 @Controller
 public class MagazineController {
+    static Logger log = Logger.getLogger(MagazineController.class.getName());
     @Autowired
     MagazineBusinessLogicInterface magazineBusinessLogicInterface;
     @Autowired
@@ -39,6 +41,7 @@ public class MagazineController {
     @GetMapping("/magazine/{id}")
     public String magazineDetails(@PathVariable(value="id") Long id, Model model) {
         if(!magazineBusinessLogicInterface.magazineExistByID(id)){
+            log.error("Magazine not found ");
             return "redirect:/error";
         }
         Optional<Magazine> magazine= magazineManagerInterface.findById(id);
@@ -60,16 +63,19 @@ public class MagazineController {
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
         if(!locationOptional.isPresent()){
+            log.error("Magazine not found ");
             return "redirect:/error";
         }
         Location locationObj=locationOptional.get();
         Magazine magazine = new Magazine(name,locationObj,pubDate,addDate,modDate);
         magazineBusinessLogicInterface.createMagazine(magazine);
+        log.info("Magazine added");
         return "magazine/mag-done";
     }
     @GetMapping("/magazine/{id}/edit")
     public String magazineEditPage(@PathVariable(value="id") Long id, Model model) {
         if(!magazineBusinessLogicInterface.magazineExistByID(id)){
+            log.error("Magazine not found ");
             return "redirect:/error";
         }
         Optional<Magazine> magazine= magazineManagerInterface.findById(id);
@@ -87,6 +93,7 @@ public class MagazineController {
         Date modDate= format.parse(modificationDate);
         Optional<Location> locationOptional=locationManagerInterface.getByName(location);
         if(!locationOptional.isPresent()){
+            log.error("Magazine not found ");
             return "redirect:/error";
         }
         Location locationObj=locationOptional.get();
@@ -97,6 +104,7 @@ public class MagazineController {
         magazine.setAddedDate(addDate);
         magazine.setModificationDate(modDate);
         magazineBusinessLogicInterface.editMagazine(magazine);
+        log.info("Magazine updated");
         return "redirect:/magazine-done";
     }
     @GetMapping("/magazine-done")
@@ -107,6 +115,7 @@ public class MagazineController {
     public String magazineDelete(@PathVariable(value="id") Long id, Model model) {
         Magazine magazine = magazineManagerInterface.findById(id).orElseThrow();
         magazineBusinessLogicInterface.deleteMagazine(magazine);
+        log.info("Magazine deleted");
         return "redirect:/magazine-delete";
     }
     @GetMapping("/magazine-delete")
