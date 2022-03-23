@@ -67,3 +67,6 @@ Example with author:</br>
 Added  parameter search for other sections </br>
 <h1>Version 2.3</h1>
 Added logger </br>
+<h1>Version 2.4</h1>
+Now project is protected with Spring Security. All passwords are Bcrypted. All actions must be Pre Authorized.ALso added roles and permissions for users </br>
+![image](https://user-images.githubusercontent.com/101453514/159713210-e318fbb1-2cf6-48a3-8ec4-6b9332bf7b94.png)
