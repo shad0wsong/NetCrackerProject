@@ -9,6 +9,7 @@ import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import libraryCatalog.repoInterfaces.MagazineManagerInterface;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,10 +49,12 @@ public class MagazineController {
         magazineBusinessLogicInterface.getMagazineDetails(magazine, model);
         return "magazine/mag-details";
     }
+    @PreAuthorize("hasAuthority('write')")
     @GetMapping("/magazine/add")
     public String addMagazinePage( Model model) {
         return "magazine/mag-add";
     }
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/magazine/add")
     public String addMagazine(@RequestParam String name, @RequestParam String location,
                           @RequestParam String publicationDate, @RequestParam String modificationDate,
@@ -72,6 +75,7 @@ public class MagazineController {
         log.info("Magazine added");
         return "magazine/mag-done";
     }
+    @PreAuthorize("hasAuthority('write')")
     @GetMapping("/magazine/{id}/edit")
     public String magazineEditPage(@PathVariable(value="id") Long id, Model model) {
         if(!magazineBusinessLogicInterface.magazineExistByID(id)){
@@ -82,6 +86,7 @@ public class MagazineController {
         magazineBusinessLogicInterface.getMagazineDetails(magazine, model);
         return "magazine/mag-edit";
     }
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/magazine/{id}/edit")
     public String magazineEdit(@PathVariable(value="id") Long id,@RequestParam String name, @RequestParam String location,
                                @RequestParam String publicationDate, @RequestParam String modificationDate,
@@ -111,6 +116,7 @@ public class MagazineController {
     public String magazineDone(Model model){
         return "magazine/mag-done";
     }
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/magazine/{id}/remove")
     public String magazineDelete(@PathVariable(value="id") Long id, Model model) {
         Magazine magazine = magazineManagerInterface.findById(id).orElseThrow();
@@ -118,6 +124,7 @@ public class MagazineController {
         log.info("Magazine deleted");
         return "redirect:/magazine-delete";
     }
+
     @GetMapping("/magazine-delete")
     public String magazineDeleted(Model model){
         return "magazine/mag-delete";

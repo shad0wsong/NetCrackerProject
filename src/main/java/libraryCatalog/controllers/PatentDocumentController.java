@@ -11,6 +11,7 @@ import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import libraryCatalog.repoInterfaces.PatentDocumentManagerInterface;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,10 +52,12 @@ public class PatentDocumentController {
         patentDocumentBusinessLogicInterface.getPatDocDetails(patentDocument, model);
         return "patentDoc/patentDoc-details";
     }
+    @PreAuthorize("hasAuthority('write')")
     @GetMapping("/patentDoc/add")
     public String addPatentDocPage( Model model) {
         return "patentDoc/patentDoc-add";
     }
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/patentDoc/add")
     public String addPatentDoc(@RequestParam String name, @RequestParam String author, @RequestParam String location,
                                @RequestParam String patentNumber,
@@ -81,6 +84,7 @@ public class PatentDocumentController {
         log.info("PatentDocument added ");
         return "patentDoc/patentDoc-done";
     }
+    @PreAuthorize("hasAuthority('write')")
     @GetMapping("/patentDoc/{id}/edit")
     public String patentDocEditPage(@PathVariable(value="id") Long id, Model model) {
         if(!patentDocumentBusinessLogicInterface.patDocExistByID(id)){
@@ -90,6 +94,7 @@ public class PatentDocumentController {
         patentDocumentBusinessLogicInterface.getPatDocDetails(patentDocument, model);
         return "patentDoc/patentDoc-edit";
     }
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/patentDoc/{id}/edit")
     public String patentDocEdit(@PathVariable(value="id") Long id,@RequestParam String name, @RequestParam String author,
                                @RequestParam String location,@RequestParam String patentNumber,
@@ -123,6 +128,8 @@ public class PatentDocumentController {
     public String patentDocDone(Model model){
         return "patentDoc/patentDoc-done";
     }
+    
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/patentDoc/{id}/remove")
     public String patentDocDelete(@PathVariable(value="id") Long id, Model model) {
         PatentDocument patentDocument = patentDocumentManagerInterface.findById(id).orElseThrow();

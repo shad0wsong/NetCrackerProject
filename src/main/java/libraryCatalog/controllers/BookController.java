@@ -54,6 +54,8 @@ public class BookController {
     public String addBookPage( Model model) {
         return "book/book-add";
     }
+
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/book/add")
     public String addBook(@RequestParam String name, @RequestParam String author, @RequestParam String location,@RequestParam String ISBN,
                           @RequestParam String publicationDate, @RequestParam String modificationDate,
@@ -80,6 +82,8 @@ public class BookController {
         log.info("Book added");
         return "book/book-done";
     }
+
+    @PreAuthorize("hasAuthority('write')")
     @GetMapping("/book/{id}/edit")
     public String bookEditPage(@PathVariable(value="id") Long id, Model model) {
         if(!bookBusinessLogicInterface.bookExistByID(id)){
@@ -90,6 +94,8 @@ public class BookController {
         bookBusinessLogicInterface.getBookDetails(book,model);
         return "book/book-edit";
     }
+
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/book/{id}/edit")
     public String bookEdit(@PathVariable(value="id") Long id, @RequestParam String name, @RequestParam String author,
                            @RequestParam String location, @RequestParam String ISBN,
@@ -128,6 +134,8 @@ public class BookController {
     public String bookDone(Model model){
         return "book/book-done";
     }
+
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/book/{id}/remove")
     public String bookDelete(@PathVariable(value="id") Long id, Model model) {
         Book book = bookManagerInterface.findById(id).orElseThrow();

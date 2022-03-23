@@ -10,6 +10,7 @@ import libraryCatalog.repoInterfaces.DocumentManagerInterface;
 import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,10 +49,13 @@ public class DocumentController {
         documentBusinessLogicInterface.getDocDetails(doc,model);
         return "document/doc-details";
     }
+    @PreAuthorize("hasAuthority('write')")
     @GetMapping("/document/add")
     public String addDocPage( Model model) {
         return "document/doc-add";
     }
+
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/document/add")
     public String addDoc(@RequestParam String name, @RequestParam String documentNumber, @RequestParam String location,
                           @RequestParam String creationDate, @RequestParam String modificationDate,
@@ -72,6 +76,7 @@ public class DocumentController {
         log.info("Document added ");
         return "document/doc-done";
     }
+    @PreAuthorize("hasAuthority('write')")
     @GetMapping("/document/{id}/edit")
     public String docEditPage(@PathVariable(value="id") Long id, Model model) {
         if(!documentBusinessLogicInterface.docExistByID(id)){
@@ -86,6 +91,7 @@ public class DocumentController {
     public String docDone( Model model) {
         return "document/doc-done";
     }
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/document/{id}/edit")
     public String DocEdit(@PathVariable(value="id") Long id,@RequestParam String name, @RequestParam String documentNumber, @RequestParam String location,
                                @RequestParam String creationDate, @RequestParam String modificationDate,
@@ -112,6 +118,7 @@ public class DocumentController {
         log.info("Document updated ");
         return "redirect:/doc-done";
     }
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping("/document/{id}/remove")
     public String docDelete(@PathVariable(value="id") Long id, Model model) {
         Document document = documentManagerInterface.findById(id).orElseThrow();

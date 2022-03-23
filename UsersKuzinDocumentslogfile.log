@@ -5,3 +5,4 @@
 2022-03-23 14:29:05 INFO  BookController:80 - Book added
 2022-03-23 14:29:39 INFO  BookController:135 - Book deleted
 2022-03-23 15:16:08 INFO  BookController:80 - Book added
+2022-03-23 17:36:17 INFO  BookController:130 - Book updated 
