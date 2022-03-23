@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html   xmlns:th="https://www.thymeleaf.org ">
+<html   xmlns:th="https://www.thymeleaf.org " xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
   <meta charset="UTF-8">
   <title>Patent Docs</title>
@@ -9,7 +9,7 @@
 <header th:insert="blocks/header :: header">
 
 </header>
-<div class="container mt-5">
+<div sec:authorize="hasAuthority('write')" class="container mt-5">
   <h1>Here you can add a patent document or find it by parameters</h1>
   <h1><a href="/patentDoc/add" class=" btn btn-warning">Add new patent document</a></h1>
 </div>

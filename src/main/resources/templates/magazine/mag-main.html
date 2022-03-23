@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html   xmlns:th="https://www.thymeleaf.org ">
+<html   xmlns:th="https://www.thymeleaf.org " xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
   <meta charset="UTF-8">
   <title>Magazines</title>
@@ -9,7 +9,7 @@
 <header th:insert="blocks/header :: header">
 
 </header>
-<div class="container mt-5">
+<div sec:authorize="hasAuthority('write')" class="container mt-5">
   <h1>Here you can add a magazine or find it by name</h1>
   <h1><a href="/magazine/add" class=" btn btn-warning">Add new magazine</a></h1>
 </div>

@@ -128,7 +128,7 @@ public class PatentDocumentController {
     public String patentDocDone(Model model){
         return "patentDoc/patentDoc-done";
     }
-    
+
     @PreAuthorize("hasAuthority('write')")
     @PostMapping("/patentDoc/{id}/remove")
     public String patentDocDelete(@PathVariable(value="id") Long id, Model model) {
