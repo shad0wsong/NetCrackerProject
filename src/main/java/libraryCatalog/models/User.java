@@ -1,25 +1,28 @@
 package libraryCatalog.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    Long id;
-    String login;
-    String pass;
-    String email;
+    private Long id;
+    private String login;
+    private String pass;
+    private String email;
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+    @Enumerated(value = EnumType.STRING)
+    private Status status;
     public User(){
     }
 
-    public User(String login, String pass, String email) {
+    public User(String login, String pass, String email, Role role, Status status) {
         this.login = login;
         this.pass = pass;
         this.email = email;
+        this.role = role;
+        this.status = status;
     }
 
     public Long getId() {
@@ -58,6 +61,22 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
 

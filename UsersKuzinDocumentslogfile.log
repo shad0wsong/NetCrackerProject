@@ -2,3 +2,6 @@
 2022-03-21 21:13:02 INFO  PatentDocumentController:81 - PatentDocument added 
 2022-03-21 21:13:42 INFO  PatentDocumentController:119 - PatentDocument updated 
 2022-03-21 21:14:01 INFO  PatentDocumentController:130 - PatentDocument deleted 
+2022-03-23 14:29:05 INFO  BookController:80 - Book added
+2022-03-23 14:29:39 INFO  BookController:135 - Book deleted
+2022-03-23 15:16:08 INFO  BookController:80 - Book added

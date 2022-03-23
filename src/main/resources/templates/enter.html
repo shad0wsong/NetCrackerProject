@@ -118,16 +118,16 @@ position: absolute;
         <div class="">
           <h2 class="mb-3 font-weight-light">Enter</h2>
           <h6 class="subtitle font-weight-normal">Library Catalog</h6>
-          <form class="mt-3" action="check-acc" method="post">
+          <form class="mt-3" action="/login" method="post">
             <div class="row">
               <div class="col-lg-12">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="login" placeholder="Login">
+                  <input class="form-control" type="text"  id="username" name="username" placeholder="Username" required>
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
-                  <input class="form-control" type="password" name="pass" placeholder="Password">
+                  <input class="form-control" type="password" id="password" name="password" placeholder="Password" required>
                 </div>
               </div>
               <div class="col-lg-12">

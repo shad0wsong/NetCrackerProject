@@ -1,6 +1,9 @@
 package libraryCatalog.controllers;
 
+import libraryCatalog.models.Role;
+import libraryCatalog.models.Status;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,14 +15,11 @@ import java.util.Optional;
 
 
 @Controller
-public class GreetingController  {
+public class AuthController {
     @Autowired
     UserManagerInterface userManagerInterface;
-    public GreetingController()  {
-    }
-    @GetMapping("/xd")
-    public String xd( Model model) {
-        return "xdd";
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public AuthController()  {
     }
     @GetMapping("/home")
     public String home( Model model) {
@@ -29,26 +29,21 @@ public class GreetingController  {
     public String reg( Model model) {
         return "Registration";
     }
-    @PostMapping("/check-acc")
-    public String checkUser(@RequestParam String login,String pass, Model model) {
-        Optional<User> user= userManagerInterface.findByLogin(login);
-        if(user.isPresent()){
-            User checkUser =user.get();
-            if(checkUser.getPass().equals(pass)){
-                System.out.println("access granted to "+checkUser.getLogin());
-                return "/home";            }
-        }
-        return "redirect:/error";
-    }
     @PostMapping("/create-user")
     public String newUser(@RequestParam String login,String pass,String email, Model model) {
-        User user= new User(login,pass,email);
+        String encodedPassword = passwordEncoder.encode(pass);
+        User user= new User(login,encodedPassword,email, Role.USER, Status.ACTIVE);
         userManagerInterface.save(user);
-        return "redirect:/enter";
+        return "redirect:/login";
     }
 
-    @GetMapping("/enter")
+    @GetMapping("/login")
     public String enter( Model model) {
         return "enter";
+    }
+
+    @PostMapping("/logout")
+    public String logout(Model model){
+        return "redirect:/login";
     }
 }
