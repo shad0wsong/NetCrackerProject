@@ -74,3 +74,11 @@ Now project is protected with Spring Security. All passwords are Bcrypted. All a
 Added visibility for add delete and remove buttons.Now only ADMIN can see and use them</br>
 ![UQZNYXzfyDY](https://user-images.githubusercontent.com/101453514/159729169-abc9fc8e-d926-4514-a4ed-ea5c2cab0f71.jpg)
 ![bymX6duWHdk](https://user-images.githubusercontent.com/101453514/159729194-613d0d8d-d9a5-4388-b240-4acba992c143.jpg)
+<h1>Version 2.6</h1>
+Added CRUD for Location and Author. Buttons are visible only for admin</br>
+![image](https://user-images.githubusercontent.com/101453514/159915596-7eb49155-806d-4f39-b278-12bc67468499.png)
+![image](https://user-images.githubusercontent.com/101453514/159915671-23c8d266-c715-4328-8a9f-88fccf17a32a.png)
+![image](https://user-images.githubusercontent.com/101453514/159915719-94f250ec-262a-49b1-95a8-8e7cd62db6f2.png)
+![image](https://user-images.githubusercontent.com/101453514/159915794-206132d2-63dc-40e0-8dcd-2206632c96b1.png)
+
+
