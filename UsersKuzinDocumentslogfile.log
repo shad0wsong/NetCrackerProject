@@ -6,3 +6,11 @@
 2022-03-23 14:29:39 INFO  BookController:135 - Book deleted
 2022-03-23 15:16:08 INFO  BookController:80 - Book added
 2022-03-23 17:36:17 INFO  BookController:130 - Book updated 
+2022-03-23 18:54:13 INFO  MagazineController:124 - Magazine deleted
+2022-03-24 14:42:10 INFO  LocationController:59 - Location added
+2022-03-24 14:45:07 INFO  LocationController:96 - Location deleted
+2022-03-24 14:45:15 INFO  LocationController:59 - Location added
+2022-03-24 14:46:43 INFO  LocationController:83 - Location updated 
+2022-03-24 14:46:46 INFO  LocationController:96 - Location deleted
+2022-03-24 16:15:35 INFO  AuthorController:80 - Author updated 
+2022-03-24 16:16:18 INFO  AuthorController:80 - Author updated 

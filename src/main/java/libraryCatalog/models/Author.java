@@ -27,8 +27,11 @@ public class Author {
     private List<PatentDocument> patentDocuments;
 
     @OneToMany (mappedBy="bookAuthor")
-
     private List<Book> books;
+
+    public Long getId() {
+        return authorid;
+    }
 
     public String getName() {
         return name;
@@ -54,9 +57,14 @@ public class Author {
         this.books = books;
     }
 
+    public Author(){}
+    public Author(String name, String shortBiography) {
+        this.name = name;
+        this.shortBiography = shortBiography;
+    }
+
     @Override
     public String toString() {
         return  name;
-
     }
 }
