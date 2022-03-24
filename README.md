@@ -70,3 +70,7 @@ Added logger </br>
 <h1>Version 2.4</h1>
 Now project is protected with Spring Security. All passwords are Bcrypted. All actions must be Pre Authorized.ALso added roles and permissions for users </br>
 ![image](https://user-images.githubusercontent.com/101453514/159713210-e318fbb1-2cf6-48a3-8ec4-6b9332bf7b94.png)
+<h1>Version 2.5</h1>
+Added visibility for add delete and remove buttons.Now only ADMIN can see and use them</br>
+![UQZNYXzfyDY](https://user-images.githubusercontent.com/101453514/159729169-abc9fc8e-d926-4514-a4ed-ea5c2cab0f71.jpg)
+![bymX6duWHdk](https://user-images.githubusercontent.com/101453514/159729194-613d0d8d-d9a5-4388-b240-4acba992c143.jpg)
