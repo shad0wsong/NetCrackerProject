@@ -1,11 +1,8 @@
 package libraryCatalog.controllers;
 
 import libraryCatalog.businessLogicInterfaces.AuthorBusinessLogicInterface;
-import libraryCatalog.businessLogicInterfaces.LocationBusinessLogicInterface;
 import libraryCatalog.models.Author;
-import libraryCatalog.models.Location;
 import libraryCatalog.repoInterfaces.AuthorManagerInterface;
-import libraryCatalog.repoInterfaces.LocationManagerInterface;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

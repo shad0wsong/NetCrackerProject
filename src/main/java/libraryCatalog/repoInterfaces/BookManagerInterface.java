@@ -13,7 +13,7 @@ public interface BookManagerInterface extends CrudRepository<Book,Long> {
     @Query("SELECT b FROM Book b WHERE b.name LIKE %:name%")
     Iterable<Book> getByName(@Param("name") String name);
 
-    @Query("select max(b.id) from Book b")
+    @Query("select max(b.id) from Book b WHERE b.id<100000000")
     Long getMaxID();
 
     @Query("SELECT b FROM Book b WHERE (:name IS NULL OR b.name LIKE %:name%) " +

@@ -39,13 +39,13 @@ public class Location {
 
     private List<Magazine> magazines;
 
-    Location(){
-
-    }
 
     public Location(String name, String libraryNumber) {
         this.name = name;
         this.libraryNumber = libraryNumber;
+    }
+    public  Location(){
+
     }
 
     public Long getId() {
