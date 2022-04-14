@@ -50,7 +50,7 @@ public class LibraryBot extends TelegramLongPollingCommandBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
     }

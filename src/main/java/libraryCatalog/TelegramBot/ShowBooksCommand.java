@@ -23,7 +23,7 @@ public class ShowBooksCommand extends BotCommand {
         try {
             resultSet = statementClass.showBooks();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         try {
@@ -47,7 +47,7 @@ public class ShowBooksCommand extends BotCommand {
         catch (SQLException e){
 
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
 

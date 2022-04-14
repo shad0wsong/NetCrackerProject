@@ -29,7 +29,7 @@ public class DeleteBookCommand extends BotCommand {
             sendMessage.setText("Книга успешно удалена!");
             absSender.execute(sendMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

@@ -63,7 +63,7 @@ public class AddBookCommand extends BotCommand {
             sendMessage.setText("Книга успешно добавлена!");
             absSender.execute(sendMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

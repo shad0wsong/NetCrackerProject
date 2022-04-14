@@ -24,37 +24,32 @@ public class FindBookCommand extends BotCommand {
         try {
             resultSet=statementClass.findBookByName(bookName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        try {
-            if(!resultSet.next()){
-                SendMessage message = new SendMessage();
-                message.setChatId(String.valueOf(chat.getId()));
-                message.setText("Извините, книга не найдена!");
-                absSender.execute(message);
-            }
 
-            while (resultSet.next()) {
-                SendMessage message = new SendMessage();
-                message.setChatId(String.valueOf(chat.getId()));
-                String text="";
-                text+="Name:"+resultSet.getString(5)+"\n";
-                text+="ISBN:"+resultSet.getString(2)+"\n";
-                text+="Added to library Date:"+resultSet.getDate(3)+"\n";
-                text+="Modification Date:"+resultSet.getDate(4)+"\n";
-                text+="Publication Date:"+resultSet.getDate(6)+"\n";
-                String locationName= statementClass.locationNameById(resultSet.getLong(7));
-                text+="Location Name:"+locationName+"\n";
-                String authorName =statementClass.authorNameById(resultSet.getLong(8));
-                text+="Author Name:"+authorName+"\n";
-                message.setText(text);
-                absSender.execute(message);
+        try {
+                while (resultSet.next()) {
+                    SendMessage message = new SendMessage();
+                    message.setChatId(String.valueOf(chat.getId()));
+                    String text = "";
+                    text += "Name:" + resultSet.getString(5) + "\n";
+                    text += "ISBN:" + resultSet.getString(2) + "\n";
+                    text += "Added to library Date:" + resultSet.getDate(3) + "\n";
+                    text += "Modification Date:" + resultSet.getDate(4) + "\n";
+                    text += "Publication Date:" + resultSet.getDate(6) + "\n";
+                    String locationName = statementClass.locationNameById(resultSet.getLong(7));
+                    text += "Location Name:" + locationName + "\n";
+                    String authorName = statementClass.authorNameById(resultSet.getLong(8));
+                    text += "Author Name:" + authorName + "\n";
+                    message.setText(text);
+                    absSender.execute(message);
+
             }
         }
         catch (SQLException e){
-
+            throw new RuntimeException(e);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
     }

@@ -24,7 +24,7 @@ public class StatementClass {
                 authorId=resultSet.getLong(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return authorId;
     }
@@ -40,7 +40,7 @@ public class StatementClass {
                 locationId=resultSet.getLong(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return  locationId;
     }
@@ -55,7 +55,7 @@ public class StatementClass {
                 bookId=resultSet.getLong(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return  bookId;
     }
@@ -72,7 +72,7 @@ public class StatementClass {
             }
             maxBookId++;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return  maxBookId;
     }
@@ -92,7 +92,7 @@ public class StatementClass {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
     public void deleteBookById(Long id){
@@ -104,7 +104,7 @@ public class StatementClass {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
     public void updateBookByID(String ISBN,java.sql.Date sqlAddedDate,java.sql.Date sqlModDate,java.sql.Date sqlPubDate,String bookName,Long locationId,Long authorId,Long bookId){
@@ -124,7 +124,7 @@ public class StatementClass {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
     public ResultSet showBooks() throws SQLException {
@@ -145,7 +145,7 @@ public class StatementClass {
                 locationName=resultSet.getString(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return  locationName;
     }
@@ -160,7 +160,7 @@ public class StatementClass {
                 authorName=resultSet.getString(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return  authorName;
     }
@@ -169,7 +169,7 @@ public class StatementClass {
                 connection.prepareStatement("SELECT * FROM book WHERE name=?");
         preparedStatement.setString(1, bookName);
         ResultSet resultSet = preparedStatement.executeQuery();
-
+        
         return resultSet;
 
     }
