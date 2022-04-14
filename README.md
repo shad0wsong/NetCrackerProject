@@ -81,4 +81,12 @@ Added CRUD for Location and Author. Buttons are visible only for admin</br>
 ![image](https://user-images.githubusercontent.com/101453514/159915719-94f250ec-262a-49b1-95a8-8e7cd62db6f2.png)
 ![image](https://user-images.githubusercontent.com/101453514/159915794-206132d2-63dc-40e0-8dcd-2206632c96b1.png)
 
+<h1>Version 2.7</h1>
+Added telegram bot for operations with Books. You can find it here @libraryNet_bot or by link t.me/libraryNet_bot</br>
+Here some examples:
+![image](https://user-images.githubusercontent.com/101453514/163396825-fa5d7106-95ba-4d2f-b84f-d6bcff33f7d0.png)
+![image](https://user-images.githubusercontent.com/101453514/163397186-a8f32a01-be06-47d4-93b7-427e6df323cc.png)
+![image](https://user-images.githubusercontent.com/101453514/163397295-95c521cc-5a0c-409e-b71c-306d64829c06.png)
+
+
 
