@@ -1,5 +1,4 @@
 # NetCrackerProject
-Hi this is a project for NetCracker Study Center</br>
 Here you can find a library catalog for Books Magazines Documents and Patent papers.</br>
 This project will be ended in 4 month but i will update this file for added features every couple of days.
 
