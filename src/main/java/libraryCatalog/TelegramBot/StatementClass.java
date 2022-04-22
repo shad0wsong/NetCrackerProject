@@ -169,7 +169,7 @@ public class StatementClass {
                 connection.prepareStatement("SELECT * FROM book WHERE name=?");
         preparedStatement.setString(1, bookName);
         ResultSet resultSet = preparedStatement.executeQuery();
-        
+
         return resultSet;
 
     }

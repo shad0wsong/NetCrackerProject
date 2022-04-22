@@ -19,8 +19,8 @@ public class LibraryBot extends TelegramLongPollingCommandBot {
 
     public LibraryBot() throws SQLException {
         super();
-        this.LIBRARY_BOT_NAME = "Library bot";
-        this.LIBRARY_BOT_TOKEN = "5194966719:AAHe8vUrrjA4LDrzn8ozQMjpkletoQwsW3c";
+        this.LIBRARY_BOT_NAME = System.getenv("LIBRARY_BOT_NAME");
+        this.LIBRARY_BOT_TOKEN = System.getenv("LIBRARY_BOT_TOKEN");;
 
         register(new StartCommand("start", "Запускает бота"));
         register(new ShowBooksCommand("showbooks", "Показать все книги"));
