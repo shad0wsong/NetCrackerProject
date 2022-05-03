@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org " xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Objects</title>
+    <link rel ="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header">
+
+</header>
+
+<div class="container mt-5">
+    <h1>All list of objects</h1>
+    <div th:each="el :${test}" class="alert alert-info mt-2">
+        <h3 th:text="${el.name}"></h3>
+        <p th:text="'Object Type '+${el.objectType}"></p>
+        <p th:text="'Attrebutes '+${el.objectType.attrebutes}"></p>
+        <p th:text="'Value '+${el.value}"></p>
+        <a th:href="'/book/'+${el.id}" class=" btn btn-warning">Details</a>
+    </div>
+
+</div>
+
+<footer th:insert="blocks/footer :: footer"></footer>
+
+
+
+</body>
+</html>
