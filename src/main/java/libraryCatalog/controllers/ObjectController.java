@@ -42,7 +42,7 @@ public class ObjectController {
     @GetMapping("/object/{id}")
     public String objectDetails(@PathVariable(value="id") Long id, Model model) {
         if(!objectBusinessLogicInterface.objectExistByID(id)){
-            log.error("Book not found ");
+            log.error("Object not found ");
             return "redirect:/error";
         }
         Optional<Object> object= objectManagerInterface.findById(id);
@@ -105,5 +105,5 @@ public class ObjectController {
     public String objectDeleted(Model model){
         return "object/object-delete";
     }
-    
+
 }
