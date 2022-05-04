@@ -3,6 +3,7 @@ package libraryCatalog.models;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Object {
@@ -18,9 +19,8 @@ public class Object {
     @Type(type = "org.hibernate.type.TextType")
     private String name;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "valueid")
-    private Value value;
+    @OneToMany(mappedBy="object")
+    private List<Value> value;
 
 
     public Object() {
@@ -31,7 +31,7 @@ public class Object {
         this.name = name;
 
     }
-    public Object(ObjectType objectType, String name, Value value) {
+    public Object(ObjectType objectType, String name, List<Value> value) {
         this.objectType = objectType;
         this.name = name;
         this.value = value;
@@ -62,11 +62,11 @@ public class Object {
     }
 
 
-    public Value getValue() {
+    public List getValue() {
         return value;
     }
 
-    public void setValue(Value value) {
+    public void setValue(List<Value> value) {
         this.value = value;
     }
 

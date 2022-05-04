@@ -13,24 +13,21 @@ public class Value {
     private Long valueid;
 
 
-    @OneToOne(optional = false, mappedBy = "value")
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "attrebutid")
     private Attrebutes attrebute;
 
-    @OneToOne(optional = false, mappedBy = "value")
+
+    @ManyToOne(optional = false, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "objectid")
     private Object object;
 
-
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    private String name;
+    private String stringValue;
 
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String ISBN;
 
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String documentNumber;
+    private Long longValue;
 
 
     private Long authorid;
@@ -40,46 +37,71 @@ public class Value {
 
 
     @Temporal(TemporalType.DATE)
-    private Date publicationDate;
-
-
-    @Temporal(TemporalType.DATE)
-    private Date addedDate;
-
-
-    @Temporal(TemporalType.DATE)
-    private Date modificationDate;
-
-
-    @Temporal(TemporalType.DATE)
-    private Date creationDate;
-
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String patentNumber;
+    private Date dateValue;
 
 
     public Value() {
+    }
+
+    public Value(Attrebutes attrebute, Object object, String stringValue, Long longValue, Long authorid, Long locationid, Date dateValue) {
+        this.attrebute = attrebute;
+        this.object = object;
+        this.stringValue = stringValue;
+        this.longValue = longValue;
+        this.authorid = authorid;
+        this.locationid = locationid;
+        this.dateValue = dateValue;
+    }
+
+    public Long getValueid() {
+        return valueid;
+    }
+
+    public String getStringValue() {
+        return stringValue;
+    }
+
+    public void setStringValue(String stringValue) {
+        this.stringValue = stringValue;
+    }
+
+    public Long getLongValue() {
+        return longValue;
+    }
+
+    public void setLongValue(Long intValue) {
+        this.longValue = intValue;
+    }
+
+    public Long getAuthorid() {
+        return authorid;
+    }
+
+    public void setAuthorid(Long authorid) {
+        this.authorid = authorid;
+    }
+
+    public Long getLocationid() {
+        return locationid;
+    }
+
+    public void setLocationid(Long locationid) {
+        this.locationid = locationid;
+    }
+
+    public Date getDateValue() {
+        return dateValue;
+    }
+
+    public void setDateValue(Date dateValue) {
+        this.dateValue = dateValue;
     }
 
     public Long getId() {
         return valueid;
     }
 
-    public Value(Attrebutes attrebute, Object object, String name, String ISBN, String documentNumber, Long authorid, Long locationid, Date publicationDate, Date addedDate, Date modificationDate, Date creationDate, String patentNumber) {
-        this.attrebute = attrebute;
-        this.object = object;
-        this.name = name;
-        this.ISBN = ISBN;
-        this.documentNumber = documentNumber;
-        this.authorid = authorid;
-        this.locationid = locationid;
-        this.publicationDate = publicationDate;
-        this.addedDate = addedDate;
-        this.modificationDate = modificationDate;
-        this.creationDate = creationDate;
-        this.patentNumber = patentNumber;
-    }
+
 
     public void setValueid(Long valueid) {
         this.valueid = valueid;
@@ -102,100 +124,17 @@ public class Value {
         this.object = object;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getISBN() {
-        return ISBN;
-    }
-
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
-    }
-
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
-
-    public Long getAuthorid() {
-        return authorid;
-    }
-
-    public void setAuthorid(Long authorid) {
-        this.authorid = authorid;
-    }
-
-    public Long getLocationid() {
-        return locationid;
-    }
-
-    public void setLocationid(Long locationid) {
-        this.locationid = locationid;
-    }
-
-    public Date getPublicationDate() {
-        return publicationDate;
-    }
-
-    public void setPublicationDate(Date publicationDate) {
-        this.publicationDate = publicationDate;
-    }
-
-    public Date getAddedDate() {
-        return addedDate;
-    }
-
-    public void setAddedDate(Date addedDate) {
-        this.addedDate = addedDate;
-    }
-
-    public Date getModificationDate() {
-        return modificationDate;
-    }
-
-    public void setModificationDate(Date modificationDate) {
-        this.modificationDate = modificationDate;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public String getPatentNumber() {
-        return patentNumber;
-    }
-
-    public void setPatentNumber(String patentNumber) {
-        this.patentNumber = patentNumber;
-    }
-
-
     @Override
     public String toString() {
-        return
+        return "Value{" +
                 "valueid=" + valueid +
-                ", name='" + name + '\'' +
-                ", ISBN='" + ISBN + '\'' +
-                ", documentNumber='" + documentNumber + '\'' +
+                ", attrebute=" + attrebute +
+                ", object=" + object +
+                ", stringValue='" + stringValue + '\'' +
+                ", longValue=" + longValue +
                 ", authorid=" + authorid +
                 ", locationid=" + locationid +
-                ", publicationDate=" + publicationDate +
-                ", addedDate=" + addedDate +
-                ", modificationDate=" + modificationDate +
-                ", creationDate=" + creationDate +
-                ", patentNumber='" + patentNumber;
+                ", dateValue=" + dateValue +
+                '}';
     }
 }

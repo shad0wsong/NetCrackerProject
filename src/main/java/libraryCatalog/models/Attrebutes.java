@@ -6,15 +6,13 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(indexes = @Index(columnList = "attrebutid"))
 public class Attrebutes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long attrebutid;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "valueid")
+    @OneToOne(optional = false, mappedBy = "attrebute")
     private Value value;
 
 
